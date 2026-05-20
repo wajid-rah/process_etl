@@ -9,13 +9,13 @@ The project follows Medallion Architecture and uses modular components for extra
 
 
 This project demonstrates REAL engineering practices:
-Modular structure	
-Config-driven design
-Logging	Production 
-Spark transformations	
-JDBC loading	
-Data quality checks	
-Schema management	
-API ingestion	
+Modular structure, 	
+Config-driven design, 
+Logging	Production,  
+Spark transformations, 	
+JDBC loading, 	
+Data quality checks, 	
+Schema management, 	
+API ingestion, 	
 Medallion Architecture	
 
