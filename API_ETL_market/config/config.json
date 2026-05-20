@@ -1,0 +1,33 @@
+
+{
+  "_comment": "ETL Pipeline Configuration — Alpha Vantage Stock Market Data",
+
+  "spark": {
+    "_comment"              : "PySpark environment and JAR settings",
+    "app_name"              : "API_ETL_pipeline",
+    "pyspark_python"        : "D:\\Python310\\python.exe",
+    "pyspark_driver_python" : "D:\\Python310\\python.exe",
+    "mysql_jars"            : "D:\\DataEng\\03_ETL\\Pyspark\\jars\\mysql-connector-j-9.3.0.jar"
+  },
+
+  "mysql": {
+    "_comment" : "JDBC connection settings for MySQL Gold layer target",
+    "url"      : "jdbc:mysql://localhost:3306/wajiddb",
+    "driver"   : "com.mysql.cj.jdbc.Driver",
+    "dbtable"  : "stock_daily",
+      "user": "root",
+      "password": "root"
+  },
+
+  "api": {
+    "_comment" : "Alpha Vantage REST API — symbol is appended per request as &symbol=XXX",
+    "url":  "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5",
+    "symbols"  : ["IBM", "TSCO.LON", "AAPL", "MSFT"]
+  },
+
+  "path": {
+    "_comment"      : "File system paths relative to project root",
+    "raw_data_path" : "data/raw/stock_market.json",
+    "log_file_path" : "logs/etl_pipeline.log"
+  }
+}
