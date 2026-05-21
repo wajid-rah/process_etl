@@ -6,7 +6,7 @@ The project follows Medallion Architecture and uses modular components for extra
 
 
 This project demonstrates REAL engineering practices:
-Modular structure, 	
+**Modular structure, 	
 Config-driven design, 
 Logging	Production,  
 Spark transformations, 	
@@ -14,7 +14,7 @@ JDBC loading,
 Data quality checks, 	
 Schema management, 	
 API ingestion, 	
-Medallion Architecture	
+Medallion Architecture**	
 ------------------------------------------------------------------------------------------------------
 API Extraction Layer
 •	Built a configurable multi-symbol extractor that loops over a symbol list (IBM, AAPL, TSCO.LON, MSFT) and appends each ticker to the base URL, making one API call per symbol without modifying any source code.
