@@ -25,6 +25,7 @@ This project demonstrates REAL engineering practices:
 •	Gold layer: engineered three derived analytical columns — daily_range (intraday volatility), daily_return_pct (open-to-close percentage change), and candle direction (Bullish/Bearish) — using PySpark's round(), when(), and col() functions.
 
 **Data Loading**
+
 •	Configured JDBC write to MySQL with the mysql-connector-j driver JAR, targeting a table with DECIMAL(10,4) price columns, BIGINT volume, ENUM candle direction, and a composite PRIMARY KEY (symbol, date) to enforce uniqueness at the database level.
 
 •	Wrapped the write operation in try/except with exc_info=True logging to capture full stack traces on JDBC failures, then re-raised to ensure the pipeline exits with a non-zero code for upstream monitoring.
