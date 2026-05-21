@@ -8,6 +8,7 @@ The project follows Medallion Architecture and uses modular components for extra
 This project demonstrates REAL engineering practices:	
 ------------------------------------------------------------------------------------------------------
 API Extraction Layer
+
 •	Built a configurable multi-symbol extractor that loops over a symbol list (IBM, AAPL, TSCO.LON, MSFT) and appends each ticker to the base URL, making one API call per symbol without modifying any source code.
 •	Implemented three-level response validation to handle Alpha Vantage-specific error patterns — rate-limit messages embedded inside 200 OK responses, missing time-series keys, and HTTP errors — using continue-on-failure so one bad symbol never crashes the pipeline.
 •	Persisted raw JSON to disk (Bronze landing zone) before any Spark processing, enabling reprocessing without re-hitting the API on transformation failures.
