@@ -7,12 +7,17 @@ The project follows Medallion Architecture and uses modular components for extra
 
 This project demonstrates REAL engineering practices:	
 ------------------------------------------------------------------------------------------------------
-API Extraction Layer
+**API Extraction Layer**
 
 •	Built a configurable multi-symbol extractor that loops over a symbol list (IBM, AAPL, TSCO.LON, MSFT) and appends each ticker to the base URL, making one API call per symbol without modifying any source code.
+
 •	Implemented three-level response validation to handle Alpha Vantage-specific error patterns — rate-limit messages embedded inside 200 OK responses, missing time-series keys, and HTTP errors — using continue-on-failure so one bad symbol never crashes the pipeline.
+
 •	Persisted raw JSON to disk (Bronze landing zone) before any Spark processing, enabling reprocessing without re-hitting the API on transformation failures.
-PySpark Transformation — Medallion Architecture
+
+
+**PySpark Transformation — Medallion Architecture**
+
 •	Bronze layer: wrote a custom Python flattener (flatten_json_to_df) to unroll the 3-level nested JSON (symbol → date → OHLCV) into a flat Spark DataFrame with an explicit schema — bypassing spark.read.json which misinterprets top-level symbol keys as column names.
 •	Silver layer: parsed ISO date strings to Spark DateType, ran per-column NULL checks across all OHLCV fields, and validated composite key uniqueness on (symbol, date) — logging warnings instead of silently dropping rows to preserve auditability.
 •	Gold layer: engineered three derived analytical columns — daily_range (intraday volatility), daily_return_pct (open-to-close percentage change), and candle direction (Bullish/Bearish) — using PySpark's round(), when(), and col() functions.
