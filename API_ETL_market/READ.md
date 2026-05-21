@@ -7,37 +7,160 @@ The project follows Medallion Architecture and uses modular components for extra
 
 This project demonstrates REAL engineering practices:	
 ------------------------------------------------------------------------------------------------------
-**API Extraction Layer**
+# PROJECT IMPLEMENTATION DETAILS
 
-•	Built a configurable multi-symbol extractor that loops over a symbol list (IBM, AAPL, TSCO.LON, MSFT) and appends each ticker to the base URL, making one API call per symbol without modifying any source code.
+## API Extraction Layer
 
-•	Implemented three-level response validation to handle Alpha Vantage-specific error patterns — rate-limit messages embedded inside 200 OK responses, missing time-series keys, and HTTP errors — using continue-on-failure so one bad symbol never crashes the pipeline.
+- Built a configurable multi-symbol extractor that loops over a symbol list (`IBM`, `AAPL`, `TSCO.LON`, `MSFT`) and appends each ticker to the base URL, making one API call per symbol without modifying any source code.
 
-•	Persisted raw JSON to disk (Bronze landing zone) before any Spark processing, enabling reprocessing without re-hitting the API on transformation failures.
+- Implemented three-level response validation to handle Alpha Vantage-specific error patterns:
+  - Rate-limit messages embedded inside `200 OK` responses
+  - Missing time-series keys
+  - HTTP errors
 
+  Used **continue-on-failure** logic so one failed symbol never crashes the entire pipeline.
 
-**PySpark Transformation — Medallion Architecture**
+- Persisted raw JSON to disk (**Bronze landing zone**) before any Spark processing, enabling reprocessing without re-hitting the API during transformation failures.
 
-•	Bronze layer: wrote a custom Python flattener (flatten_json_to_df) to unroll the 3-level nested JSON (symbol → date → OHLCV) into a flat Spark DataFrame with an explicit schema — bypassing spark.read.json which misinterprets top-level symbol keys as column names.
+---
 
-•	Silver layer: parsed ISO date strings to Spark DateType, ran per-column NULL checks across all OHLCV fields, and validated composite key uniqueness on (symbol, date) — logging warnings instead of silently dropping rows to preserve auditability.
+## PySpark Transformation — Medallion Architecture
 
-•	Gold layer: engineered three derived analytical columns — daily_range (intraday volatility), daily_return_pct (open-to-close percentage change), and candle direction (Bullish/Bearish) — using PySpark's round(), when(), and col() functions.
+### Bronze Layer
 
-**Data Loading**
+- Wrote a custom Python flattener `flatten_json_to_df()` to unroll 3-level nested JSON:
 
-•	Configured JDBC write to MySQL with the mysql-connector-j driver JAR, targeting a table with DECIMAL(10,4) price columns, BIGINT volume, ENUM candle direction, and a composite PRIMARY KEY (symbol, date) to enforce uniqueness at the database level.
+  ```text
+  symbol → date → OHLCV
+  ```
 
-•	Wrapped the write operation in try/except with exc_info=True logging to capture full stack traces on JDBC failures, then re-raised to ensure the pipeline exits with a non-zero code for upstream monitoring.
-Pipeline Architecture & Engineering Practices
+- Converted nested API payloads into a flat Spark DataFrame using an explicit schema.
 
-•	Designed the project in a modular folder structure (extractor/, transformer/, loader/, utils/) with each module having a single responsibility, enabling independent testing and easy extension.
+- Bypassed `spark.read.json()` because it incorrectly interpreted top-level symbol keys as column names.
 
-•	Centralised all configuration (Spark settings, JDBC credentials, API URL, symbol list, file paths) in a single config.json — adding a new stock symbol requires only a one-line config change with zero code edits.
+---
 
-•	Built a shared logging utility (get_logger(__name__)) that writes timestamped, module-named log entries to both file and console simultaneously, with a duplicate-handler guard for multi-import safety.
+### Silver Layer
 
-•	Set PySpark environment variables (PYSPARK_PYTHON, PYSPARK_DRIVER_PYTHON) before SparkSession import and added sys.path injection for PROJECT_ROOT, ensuring the pipeline runs correctly from any working directory.
+- Parsed ISO date strings into Spark `DateType`.
+
+- Executed per-column NULL validation across all OHLCV fields.
+
+- Validated composite-key uniqueness on:
+
+  ```text
+  (symbol, date)
+  ```
+
+- Logged warnings instead of silently dropping records to preserve auditability.
+
+---
+
+### Gold Layer
+
+- Engineered analytical columns:
+
+| Derived Column | Description |
+|---|---|
+| `daily_range` | Intraday volatility |
+| `daily_return_pct` | Open-to-close percentage change |
+| `candle_direction` | Bullish / Bearish trend |
+
+- Implemented transformations using PySpark functions:
+  - `round()`
+  - `when()`
+  - `col()`
+
+---
+
+## Data Loading
+
+- Configured JDBC write to MySQL using the `mysql-connector-j` driver JAR.
+
+- Targeted a relational schema with:
+  - `DECIMAL(10,4)` price columns
+  - `BIGINT` volume
+  - `ENUM` candle direction
+  - Composite `PRIMARY KEY (symbol, date)`
+
+- Enforced uniqueness at the database layer.
+
+- Wrapped JDBC writes in:
+
+  ```python
+  try:
+      ...
+  except Exception:
+      ...
+  ```
+
+- Enabled `exc_info=True` logging to capture complete stack traces during JDBC failures.
+
+- Re-raised exceptions to ensure the pipeline exits with a non-zero status code for upstream orchestration monitoring.
+
+---
+
+## Pipeline Architecture & Engineering Practices
+
+### Modular Architecture
+
+- Designed a modular project structure:
+
+  ```text
+  extractor/
+  transformer/
+  loader/
+  utils/
+  ```
+
+- Followed single-responsibility principles for easier maintenance, testing, and extensibility.
+
+---
+
+### Centralized Configuration
+
+- Centralized all runtime configuration in a single `config.json`:
+
+| Configuration Type | Examples |
+|---|---|
+| Spark Settings | Executor & session configs |
+| JDBC Credentials | URL, username, password |
+| API Configuration | Base URL, API key |
+| Symbols | Stock ticker list |
+| File Paths | Bronze/Silver/Gold paths |
+
+- Adding a new stock symbol requires only a one-line configuration change with zero source-code modification.
+
+---
+
+### Logging Framework
+
+- Built a shared logging utility:
+
+  ```python
+  get_logger(__name__)
+  ```
+
+- Enabled:
+  - Timestamped logs
+  - Module-level log identification
+  - Simultaneous console + file logging
+  - Duplicate-handler protection for multi-import safety
+
+---
+
+### Environment Setup
+
+- Configured PySpark environment variables before `SparkSession` initialization:
+
+  ```bash
+  PYSPARK_PYTHON
+  PYSPARK_DRIVER_PYTHON
+  ```
+
+- Added dynamic `PROJECT_ROOT` path injection using `sys.path`.
+
+- Ensured the pipeline executes correctly from any working directory.
 
 
 ## TECHNOLOGIES USED
