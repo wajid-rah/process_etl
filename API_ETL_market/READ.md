@@ -40,21 +40,19 @@ Pipeline Architecture & Engineering Practices
 •	Set PySpark environment variables (PYSPARK_PYTHON, PYSPARK_DRIVER_PYTHON) before SparkSession import and added sys.path injection for PROJECT_ROOT, ensuring the pipeline runs correctly from any working directory.
 
 
-**TECHNOLOGIES USED**
--------------------------------------------------------------------------------------
-Category	            Tools / Technologies
+## TECHNOLOGIES USED
 
-Languages	            Python 3.10
-
-Big Data	            Apache PySpark (SparkSession, DataFrame API, Window functions)
-
-Data Source	          Alpha Vantage REST API (TIME_SERIES_DAILY endpoint)
-
-Database	            MySQL 8 via JDBC (mysql-connector-j-9.3.0)
-
-Data Format	          JSON (raw), Parquet-compatible flat schema (processed)
-
-Architecture	        Medallion Architecture — Bronze / Silver / Gold layers
+| Category | Tools / Technologies |
+|---|---|
+| Languages | Python 3.10 |
+| Big Data | Apache PySpark (SparkSession, DataFrame API, Window functions) |
+| Data Source | Alpha Vantage REST API (TIME_SERIES_DAILY endpoint) |
+| Database | MySQL 8 via JDBC (mysql-connector-j-9.3.0) |
+| Data Format | JSON (raw), Parquet-compatible flat schema (processed) |
+| Architecture | Medallion Architecture — Bronze / Silver / Gold layers |
+| Logging | Python logging module — file + console dual handler |
+| Configuration | JSON-driven config (zero hardcoded values in source code) |
+| Dev Environment | Windows 10, Python venv, PyCharm |
 
 Logging	              Python logging module — file + console dual handler
 
