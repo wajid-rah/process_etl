@@ -54,9 +54,4 @@ Pipeline Architecture & Engineering Practices
 | Configuration | JSON-driven config (zero hardcoded values in source code) |
 | Dev Environment | Windows 10, Python venv, PyCharm |
 
-Logging	              Python logging module — file + console dual handler
-
-Configuration	        JSON-driven config (zero hardcoded values in source code)
-
-Dev Environment       Windows 10, Python venv, Pycharm
 
