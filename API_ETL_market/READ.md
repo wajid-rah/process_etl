@@ -163,6 +163,10 @@ The project follows Medallion Architecture and uses modular components for extra
 - Ensured the pipeline executes correctly from any working directory.
 
 
+<p align="center">
+  <img src="images/DATA_FLOW_ETL_API_to_MySQL.png" width="800"/>
+</p>
+
 ## TECHNOLOGIES USED
 
 | Category | Tools / Technologies |
