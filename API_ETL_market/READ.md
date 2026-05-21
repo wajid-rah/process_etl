@@ -8,7 +8,9 @@ The project follows Medallion Architecture and uses modular components for extra
 	
 ------------------------------------------------------------------------------------------------------
 # This project demonstrates REAL engineering practices:
-
+<p align="center">
+  <img src="images/DATA_FLOW_ETL_API_to_MySQL.png" width="800"/>
+</p>
 ## API Extraction Layer
 
 - Built a configurable multi-symbol extractor that loops over a symbol list (`IBM`, `AAPL`, `TSCO.LON`, `MSFT`) and appends each ticker to the base URL, making one API call per symbol without modifying any source code.
@@ -163,9 +165,7 @@ The project follows Medallion Architecture and uses modular components for extra
 - Ensured the pipeline executes correctly from any working directory.
 
 
-<p align="center">
-  <img src="images/DATA_FLOW_ETL_API_to_MySQL.png" width="800"/>
-</p>
+
 
 ## TECHNOLOGIES USED
 
