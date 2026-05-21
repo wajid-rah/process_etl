@@ -19,18 +19,27 @@ This project demonstrates REAL engineering practices:
 **PySpark Transformation — Medallion Architecture**
 
 •	Bronze layer: wrote a custom Python flattener (flatten_json_to_df) to unroll the 3-level nested JSON (symbol → date → OHLCV) into a flat Spark DataFrame with an explicit schema — bypassing spark.read.json which misinterprets top-level symbol keys as column names.
+
 •	Silver layer: parsed ISO date strings to Spark DateType, ran per-column NULL checks across all OHLCV fields, and validated composite key uniqueness on (symbol, date) — logging warnings instead of silently dropping rows to preserve auditability.
+
 •	Gold layer: engineered three derived analytical columns — daily_range (intraday volatility), daily_return_pct (open-to-close percentage change), and candle direction (Bullish/Bearish) — using PySpark's round(), when(), and col() functions.
-Data Loading
+
+**Data Loading**
 •	Configured JDBC write to MySQL with the mysql-connector-j driver JAR, targeting a table with DECIMAL(10,4) price columns, BIGINT volume, ENUM candle direction, and a composite PRIMARY KEY (symbol, date) to enforce uniqueness at the database level.
+
 •	Wrapped the write operation in try/except with exc_info=True logging to capture full stack traces on JDBC failures, then re-raised to ensure the pipeline exits with a non-zero code for upstream monitoring.
 Pipeline Architecture & Engineering Practices
+
 •	Designed the project in a modular folder structure (extractor/, transformer/, loader/, utils/) with each module having a single responsibility, enabling independent testing and easy extension.
+
 •	Centralised all configuration (Spark settings, JDBC credentials, API URL, symbol list, file paths) in a single config.json — adding a new stock symbol requires only a one-line config change with zero code edits.
+
 •	Built a shared logging utility (get_logger(__name__)) that writes timestamped, module-named log entries to both file and console simultaneously, with a duplicate-handler guard for multi-import safety.
+
 •	Set PySpark environment variables (PYSPARK_PYTHON, PYSPARK_DRIVER_PYTHON) before SparkSession import and added sys.path injection for PROJECT_ROOT, ensuring the pipeline runs correctly from any working directory.
 
-TECHNOLOGIES USED
+
+**TECHNOLOGIES USED**
 -------------------------------------------------------------------------------------
 Category	            Tools / Technologies
 Languages	            Python 3.10
