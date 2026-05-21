@@ -5,16 +5,7 @@ This project is an end-to-end ETL pipeline built using PySpark and MySQL. The pi
 The project follows Medallion Architecture and uses modular components for extraction, transformation, loading, logging, and configuration management. I also implemented centralized logging, schema validation, duplicate checks, and externalized configuration handling for maintainability and scalability.
 
 
-This project demonstrates REAL engineering practices:
-**Modular structure, 	
-Config-driven design, 
-Logging	Production,  
-Spark transformations, 	
-JDBC loading, 	
-Data quality checks, 	
-Schema management, 	
-API ingestion, 	
-Medallion Architecture**	
+This project demonstrates REAL engineering practices:	
 ------------------------------------------------------------------------------------------------------
 API Extraction Layer
 •	Built a configurable multi-symbol extractor that loops over a symbol list (IBM, AAPL, TSCO.LON, MSFT) and appends each ticker to the base URL, making one API call per symbol without modifying any source code.
