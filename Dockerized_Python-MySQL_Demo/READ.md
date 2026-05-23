@@ -2,6 +2,40 @@
 
 Developed a containerized **Python–MySQL ETL demo application** using **Docker** and **Docker Compose**.
 
+## Project Structure
+
+```text
+docker-compose-demo/   (LAPTOP)
+│
+├── app.py
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+│
+└── init/
+    └── init.sql
+```
+
+---
+
+## Architecture
+
+```text
+Docker Compose
+│
+├── MySQL Container
+│      │
+│      └── init.sql
+│             ├── CREATE TABLE
+│             └── INSERT DATA
+│
+└── python_container
+       │
+       └── app.py
+              │
+              └── Connects to mysql_container
+```
+
 ## Key Features
 
 ### Automated MySQL Database Initialization
@@ -23,8 +57,8 @@ Configured Docker volume mappings to share SQL initialization scripts from the h
 Created reusable Docker images using Dockerfile and managed application dependencies through `requirements.txt` for consistent environment setup.
 
 ### Technologies Used
-- Python
+- Python MySQL Connector
 - MySQL
-- Docker
+- Dockerfile
 - Docker Compose
-- SQL
+
