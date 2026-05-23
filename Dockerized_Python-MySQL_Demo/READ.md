@@ -1,6 +1,6 @@
 ## Project Description
 
-Developed a containerized **Python–MySQL ETL demo application** using **Docker** and **Docker Compose**.
+Developed a containerized **Python–MySQL demo application** using **Docker** and **Docker Compose**.
 
 ## Project Structure
 
