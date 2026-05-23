@@ -142,8 +142,6 @@ STEP4 : CREATE Dockerfile
 				/app/app.py
 			
 		
-			   
-			   
 			===================================================================
 			|IMPORTANT
 			|	Docker checks:
