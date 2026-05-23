@@ -12,7 +12,8 @@ Dockerized_Python-MySQL_Demo/  (LAPTOP)
 
 					LAPTOP
 		==================================================	
-STEP 1: CREATE PROJECT FOLDER : Dockerized_Python-MySQL_Demo
+STEP 1: CREATE PROJECT FOLDER 
+		Dockerized_Python-MySQL_Demo
 STEP 2: CREATE init FOLDER
 		Dockerized_Python-MySQL_Demo/  (LAPTOP)
 		└── init/📌
