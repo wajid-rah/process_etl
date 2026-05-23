@@ -1,6 +1,9 @@
 ## Project Description
 
-Developed a containerized **Python–MySQL demo application** using **Docker** and **Docker Compose**.
+Developed a containerized **Python–MySQL demo application** using **Docker** and **Docker Compose**. 
+Automated MySQL database initialization using **SQL scripts** mounted through Docker volumes, enabling automatic **table creation** and **seed data** loading during container startup.
+Implemented inter-container communication between Python and MySQL services using **Docker networking** and executed SQL queries through **Python MySQL Connector**.
+
 
 ## Project Structure
 
