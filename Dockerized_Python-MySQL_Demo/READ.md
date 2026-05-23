@@ -8,7 +8,7 @@ Implemented inter-container communication between Python and MySQL services usin
 ## Project Structure
 
 ```text
-docker-compose-demo/   (LAPTOP)
+Dockerized_Python-MySQL_Demo/   (LAPTOP)
 │
 ├── app.py
 ├── requirements.txt
