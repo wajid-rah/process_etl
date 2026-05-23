@@ -1,0 +1,28 @@
+version: '3.9'
+services:                        # List of container
+
+     # MySQL database container
+    mysql_container:
+
+        image: mysql:8.0         # PULL MySQL image
+
+        container_name: mysql_container
+
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: testdb
+
+        ports:
+            - "3307:3306"  #LAPTOP:3307  -> MYSQL CONTAINER:3306
+        volumes:
+            - ./init:/docker-entrypoint-initdb.d
+
+    # Python container
+    python_container:
+
+        build: .   # Build python image using Dockerfile in current folder
+
+        container_name: python_container
+
+        depends_on:     # Start MySQL container first
+                      - mysql_container
