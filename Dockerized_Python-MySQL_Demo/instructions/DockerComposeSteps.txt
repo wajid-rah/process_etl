@@ -1,6 +1,6 @@
 PROJECT STRUCTURE
 -------------------
-docker-compose-demo/  (LAPTOP)
+Dockerized_Python-MySQL_Demo/  (LAPTOP)
 	│
 	├── app.py
 	├── requirements.txt
@@ -12,9 +12,9 @@ docker-compose-demo/  (LAPTOP)
 
 					LAPTOP
 		==================================================	
-STEP 1: CREATE PROJECT FOLDER : docker-compose-demo
+STEP 1: CREATE PROJECT FOLDER : Dockerized_Python-MySQL_Demo
 STEP 2: CREATE init FOLDER
-		docker-compose-demo/  (LAPTOP)
+		Dockerized_Python-MySQL_Demo/  (LAPTOP)
 		└── init/📌
 			└── init.sql
 			
@@ -31,7 +31,7 @@ STEP 2: CREATE init FOLDER
 
 
 STEP 3: CREATE app.py
-		docker-compose-demo/  (LAPTOP)
+		Dockerized_Python-MySQL_Demo/  (LAPTOP)
 		│
 		├── init/
 		│	└── init.sql
@@ -93,7 +93,7 @@ STEP 3: CREATE app.py
 			=============================================================================================================
 
 STEP 3: CREATE requirements.txt
-		docker-compose-demo/  (LAPTOP)
+		Dockerized_Python-MySQL_Demo/  (LAPTOP)
 		│
 		├── init/
 		│	└── init.sql
@@ -104,7 +104,7 @@ STEP 3: CREATE requirements.txt
 
 STEP4 : CREATE Dockerfile
 
-		docker-compose-demo/  (LAPTOP)
+		Dockerized_Python-MySQL_Demo/  (LAPTOP)
 		│
 		├── init/
 		│	└── init.sql
@@ -220,7 +220,7 @@ STEP4 : CREATE Dockerfile
 			
 			
 STEP 5: CREATE docker-compose.yml
-		docker-compose-demo/  (LAPTOP)
+		Dockerized_Python-MySQL_Demo/  (LAPTOP)
 		│
 		├── init/
 		│	└── init.sql
