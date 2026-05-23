@@ -1,9 +1,21 @@
-								LAPTOP
+PROJECT STRUCTURE
+-------------------
+docker-compose-demo/  (LAPTOP)
+	│
+	├── app.py
+	├── requirements.txt
+	├── Dockerfile
+	└── docker-compose.yml
+	│
+	└── init/
+		└── init.sql
+
+					LAPTOP
 		==================================================	
 STEP 1: CREATE PROJECT FOLDER : docker-compose-demo
 STEP 2: CREATE init FOLDER
 		docker-compose-demo/  (LAPTOP)
-		└── init/
+		└── init/📌
 			└── init.sql
 			
 				USE testdb;
@@ -24,7 +36,7 @@ STEP 3: CREATE app.py
 		├── init/
 		│	└── init.sql
 		│
-		└── app.py
+		└── app.py📌
 			=============================================================================================================
 			import mysql.connector
 			import time
@@ -87,7 +99,7 @@ STEP 3: CREATE requirements.txt
 		│	└── init.sql
 		│
 		├── app.py
-		└── requirements.txt
+		└── requirements.txt📌
 				mysql-connector-python
 
 STEP4 : CREATE Dockerfile
@@ -99,7 +111,7 @@ STEP4 : CREATE Dockerfile
 		│
 		├── app.py
 		├── requirements.txt
-		└── Dockerfile
+		└── Dockerfile📌
 			
 			FROM python:3.10-slim
 			WORKDIR /app
@@ -216,7 +228,7 @@ STEP 5: CREATE docker-compose.yml
 		├── app.py
 		├── requirements.txt
 		├── Dockerfile
-		└── docker-compose.yml
+		└── docker-compose.yml 📌
 					│
 					├── MySQL Container
 					│      └── init.sql [/docker-entrypoint-initdb.d/init.sql] <- FIRST TIME database initializes
