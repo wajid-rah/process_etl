@@ -1,0 +1,138 @@
+# ── docker-compose.yml ───────────────────────────────────────────────────────
+# Defines and manages all containers, networks, and volumes in one file.
+# Start everything with: docker compose up -d
+# Stop everything with:  docker compose down
+
+services:
+  # ── PostgreSQL Database Container ─────────────────────────────────────────
+  # Uses official postgres image — no Dockerfile needed
+  # All setup happens via environment variables
+  postgresql:
+    image: postgres:16.14             # official postgres image, exact version pinned
+    container_name: my_postgres       # fixed name so we always know what to reference
+                                      # use: docker exec -it my_postgres bash
+
+    # ── Credentials and database name ───────────────────────────────────────
+    # These are read by postgres on first startup to create the database
+    # Must match exactly what PySpark uses to connect
+    environment:
+        POSTGRES_USER: etluser             # database username
+        POSTGRES_PASSWORD: etlpassword         # database password
+        POSTGRES_DB: wajiddb               # database name to create on first start
+    #  PGPASSWORD=etlpassword psql -h my_postgres -U etluser -d wajiddb
+
+    # ── Port mapping ─────────────────────────────────────────────────────────
+    # Format: "host_port:container_port"
+    # Allows connecting from your laptop with: psql -h localhost -p 5432
+    # Without this, postgres is only reachable inside Docker network
+    ports:
+      - "5432:5432"
+
+    # ── Volume mounts ────────────────────────────────────────────────────────
+    volumes:
+      # init.sql runs automatically on first start when database is empty
+      # Place: CREATE TABLE and INSERT statements here
+      # Skipped on subsequent starts if data already exists
+      - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+      # Named volume — persists database data between container restarts
+      # Without this all data is lost when container stops
+      # postgres_data is defined at the bottom of this file
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - pyspark_network               # must be same network as pyspark container
+                                      # allows pyspark to reach postgres by name
+
+    restart: unless-stopped           # auto restart if container crashes
+                                      # only stays stopped if YOU run docker compose down
+
+    # ── Healthcheck ──────────────────────────────────────────────────────────
+    # Runs pg_isready every 5 seconds to check if postgres is truly ready
+    # pyspark container waits for this to pass before starting
+    # Without this pyspark might start before postgres is ready → connection error
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U etluser -d wajiddb"]
+      interval: 5s                    # check every 5 seconds
+      timeout: 5s                     # wait max 5 seconds for response
+      retries: 5                      # try 5 times before marking as unhealthy
+
+  # ── PySpark ETL Container ──────────────────────────────────────────────────
+  # Built from our custom Dockerfile in current folder
+  # Contains Python 3.10, Java, PySpark, and all dependencies
+  pyspark:
+    build: .                          # build image using Dockerfile in current folder (.)
+                                      # rebuilds only when Dockerfile or requirements.txt changes
+    container_name: python_pyspark    # fixed name — use: docker exec -it python_pyspark bash
+
+    # ── Volume mounts ────────────────────────────────────────────────────────
+    volumes:
+        # Laptop                         Container /app/
+        # ├── main.py          ←sync→   ├── main.py
+        # ├── config/          ←sync→   ├── config/
+        # ├── extractor/       ←sync→   ├── extractor/
+        # ├── transformer/     ←sync→   ├── transformer/
+        # ├── loader/          ←sync→   ├── loader/
+        # ├── utils/           ←sync→   ├── utils/
+        # ├── data/            ←sync→   ├── data/
+        # └── logs/            ←sync→   ├── logs/
+        #                               └── jars/   ← NOT mounted, stays safe ✅
+
+      # IMPORTANT: only mount folder separately not the whole project folder
+      # Mounting .:/app overwrites everything inside /app in the container including the jars folder and requirements.txt
+      # So recommended to use   ./main.py:/app/main.py
+      # Edit code locally → changes instantly visible inside container
+      # No docker cp needed, no rebuild needed
+      - ./main.py:/app/main.py
+
+       # Each module folder mounted separately : useful for docker compose exec service_name python main.py amd its dependencies
+      - ./config:/app/config
+      - ./extractor:/app/extractor
+      - ./transformer:/app/transformer
+      - ./loader:/app/loader
+      - ./utils:/app/utils
+
+      # Persist raw data files on your laptop
+      # Files saved to /app/data inside container appear in ./data locally
+      - ./data:/app/data
+
+      # Persist log files on your laptop
+      # Files saved to /app/logs inside container appear in ./logs locally
+      - ./logs:/app/logs
+
+    # ── Startup dependency ───────────────────────────────────────────────────
+    # Do NOT start this container until postgresql passes its healthcheck
+    # condition: service_healthy → waits for pg_isready to succeed
+    # condition: service_started → only waits for container to start (not enough)
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
+    # ── Keep container alive ─────────────────────────────────────────────────
+    # python:3.10-slim has no long running process by default
+    # Without this the container starts and immediately exits
+    # tail -f /dev/null → watches an empty file forever → uses almost zero resources
+    command: tail -f /dev/null
+
+    networks:
+      - pyspark_network               # same network as postgres
+                                      # allows connecting to my_postgres by name
+                                      # used in PySpark: jdbc:postgresql://my_postgres:5432/mydb
+
+    restart: unless-stopped           # auto restart if container crashes
+
+# ── Network definition ────────────────────────────────────────────────────────
+# Creates an isolated network where both containers can talk to each other
+# Replaces manual: docker network create pyspark_network
+# bridge → standard Docker network type, containers reach each other by name
+networks:
+  pyspark_network:
+    driver: bridge
+
+# ── Named volume definition ───────────────────────────────────────────────────
+# Replaces manual: docker volume create postgres_data
+# Named volumes persist data even when containers are removed
+# To delete data completely: docker volume rm postgres_data
+# or: docker compose down -v  (removes all volumes)
+volumes:
+  postgres_data:

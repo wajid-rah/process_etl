@@ -1,0 +1,522 @@
+2026-05-30 02:54:45,387 - __main__ - INFO - ============================================================
+2026-05-30 02:54:45,388 - __main__ - INFO - PIPELINE STARTED
+2026-05-30 02:54:45,388 - __main__ - INFO - ============================================================
+2026-05-30 02:54:45,395 - utils.checkpoints - INFO - No checkpoint found. First run — fetching from: 2026-02-19
+2026-05-30 02:54:45,396 - extractor.extract_api - INFO - Incremental extraction | fetch_from: 2026-02-19 | symbols: ['IBM', 'AAPL', 'TSCO.LON', 'MSFT']
+2026-05-30 02:54:45,397 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=IBM
+2026-05-30 02:54:46,763 - extractor.extract_api - WARNING - Rate limit hit for IBM: We have detected your API key as KTVQQKI4CAGK9HF5 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2026-05-30 02:54:46,764 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=AAPL
+2026-05-30 02:54:47,256 - extractor.extract_api - WARNING - Rate limit hit for AAPL: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 02:54:47,257 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=TSCO.LON
+2026-05-30 02:54:47,767 - extractor.extract_api - WARNING - Rate limit hit for TSCO.LON: We have detected your API key as KTVQQKI4CAGK9HF5 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2026-05-30 02:54:47,768 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=MSFT
+2026-05-30 02:54:48,225 - extractor.extract_api - WARNING - Rate limit hit for MSFT: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 02:55:16,317 - __main__ - INFO - ============================================================
+2026-05-30 02:55:16,319 - __main__ - INFO - PIPELINE STARTED
+2026-05-30 02:55:16,319 - __main__ - INFO - ============================================================
+2026-05-30 02:55:16,321 - utils.checkpoints - INFO - No checkpoint found. First run — fetching from: 2026-02-19
+2026-05-30 02:55:16,323 - extractor.extract_api - INFO - Incremental extraction | fetch_from: 2026-02-19 | symbols: ['IBM', 'AAPL', 'TSCO.LON', 'MSFT']
+2026-05-30 02:55:16,324 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=IBM
+2026-05-30 02:55:16,833 - extractor.extract_api - WARNING - Rate limit hit for IBM: We have detected your API key as KTVQQKI4CAGK9HF5 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2026-05-30 02:55:16,833 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=AAPL
+2026-05-30 02:55:17,324 - extractor.extract_api - WARNING - Rate limit hit for AAPL: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 02:55:17,333 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=TSCO.LON
+2026-05-30 02:55:17,836 - extractor.extract_api - WARNING - Rate limit hit for TSCO.LON: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 02:55:17,839 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=MSFT
+2026-05-30 02:55:18,338 - extractor.extract_api - WARNING - Rate limit hit for MSFT: We have detected your API key as KTVQQKI4CAGK9HF5 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2026-05-30 02:55:18,355 - extractor.extract_api - INFO - Saving filtered data (0 symbols) to: data/raw/stock_market.json
+2026-05-30 02:55:18,368 - extractor.extract_api - INFO - Raw incremental data saved.
+2026-05-30 02:55:18,372 - __main__ - INFO - Initialising SparkSession...
+2026-05-30 02:55:32,402 - transformer.transform_data - INFO - Reading windowed JSON from: data/raw/stock_market.json
+2026-05-30 02:55:32,407 - transformer.transform_data - INFO - Total rows in window: 0
+2026-05-30 02:55:32,408 - transformer.transform_data - WARNING - No rows to process in this window.
+2026-05-30 02:55:35,984 - transformer.transform_data - INFO - Bronze DataFrame created.
+2026-05-30 02:55:35,986 - transformer.transform_data - INFO - Running Silver layer checks on new rows...
+2026-05-30 02:55:41,539 - transformer.transform_data - INFO - NULL CHECK PASSED: 'open'
+2026-05-30 02:55:43,344 - transformer.transform_data - INFO - NULL CHECK PASSED: 'high'
+2026-05-30 02:55:44,036 - transformer.transform_data - INFO - NULL CHECK PASSED: 'low'
+2026-05-30 02:55:44,610 - transformer.transform_data - INFO - NULL CHECK PASSED: 'close'
+2026-05-30 02:55:45,563 - transformer.transform_data - INFO - NULL CHECK PASSED: 'volume'
+2026-05-30 02:55:47,620 - transformer.transform_data - INFO - DUPLICATE CHECK PASSED.
+2026-05-30 02:55:47,621 - transformer.transform_data - INFO - Silver layer ready.
+2026-05-30 02:55:47,625 - transformer.transform_data - INFO - Applying Gold layer transformations...
+2026-05-30 02:55:48,128 - transformer.transform_data - INFO - Gold layer ready.
+2026-05-30 02:55:52,418 - transformer.transform_data - INFO - Max date in current batch: None
+2026-05-30 02:59:31,665 - __main__ - INFO - ============================================================
+2026-05-30 02:59:31,672 - __main__ - INFO - PIPELINE STARTED
+2026-05-30 02:59:31,673 - __main__ - INFO - ============================================================
+2026-05-30 02:59:31,678 - utils.checkpoints - INFO - No checkpoint found. First run — fetching from: 2026-02-19
+2026-05-30 02:59:31,679 - extractor.extract_api - INFO - Incremental extraction | fetch_from: 2026-02-19 | symbols: ['IBM', 'AAPL', 'TSCO.LON', 'MSFT']
+2026-05-30 02:59:31,680 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=IBM
+2026-05-30 02:59:33,376 - extractor.extract_api - WARNING - Rate limit hit for IBM: We have detected your API key as KTVQQKI4CAGK9HF5 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2026-05-30 02:59:33,378 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=AAPL
+2026-05-30 02:59:33,912 - extractor.extract_api - WARNING - Rate limit hit for AAPL: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 02:59:33,914 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=TSCO.LON
+2026-05-30 02:59:34,342 - extractor.extract_api - WARNING - Rate limit hit for TSCO.LON: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 02:59:34,344 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=MSFT
+2026-05-30 02:59:34,782 - extractor.extract_api - WARNING - Rate limit hit for MSFT: We have detected your API key as KTVQQKI4CAGK9HF5 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2026-05-30 02:59:34,790 - extractor.extract_api - INFO - Saving filtered data (0 symbols) to: data/raw/stock_market.json
+2026-05-30 02:59:34,799 - extractor.extract_api - INFO - Raw incremental data saved.
+2026-05-30 02:59:34,801 - __main__ - INFO - Initialising SparkSession...
+2026-05-30 02:59:49,050 - transformer.transform_data - INFO - Reading windowed JSON from: data/raw/stock_market.json
+2026-05-30 02:59:49,061 - transformer.transform_data - INFO - Total rows in window: 0
+2026-05-30 02:59:49,062 - transformer.transform_data - WARNING - No rows to process in this window.
+2026-05-30 02:59:52,877 - transformer.transform_data - INFO - Bronze DataFrame created.
+2026-05-30 02:59:52,878 - transformer.transform_data - INFO - Running Silver layer checks on new rows...
+2026-05-30 03:00:06,112 - transformer.transform_data - INFO - NULL CHECK PASSED: 'open'
+2026-05-30 03:00:11,410 - transformer.transform_data - INFO - NULL CHECK PASSED: 'high'
+2026-05-30 03:00:13,194 - transformer.transform_data - INFO - NULL CHECK PASSED: 'low'
+2026-05-30 03:00:13,914 - transformer.transform_data - INFO - NULL CHECK PASSED: 'close'
+2026-05-30 03:00:17,496 - transformer.transform_data - INFO - NULL CHECK PASSED: 'volume'
+2026-05-30 03:00:20,295 - transformer.transform_data - INFO - DUPLICATE CHECK PASSED.
+2026-05-30 03:00:20,295 - transformer.transform_data - INFO - Silver layer ready.
+2026-05-30 03:00:20,299 - transformer.transform_data - INFO - Applying Gold layer transformations...
+2026-05-30 03:00:20,490 - transformer.transform_data - INFO - Gold layer ready.
+2026-05-30 03:00:23,656 - transformer.transform_data - INFO - Max date in current batch: None
+2026-05-30 03:25:29,270 - __main__ - INFO - ============================================================
+2026-05-30 03:25:29,282 - __main__ - INFO - INCREMENTAL ETL PIPELINE STARTED
+2026-05-30 03:25:29,284 - __main__ - INFO - Run date: 2026-05-30 | Lookback: 2 days
+2026-05-30 03:25:29,285 - __main__ - INFO - ============================================================
+2026-05-30 03:27:09,072 - __main__ - INFO - ============================================================
+2026-05-30 03:27:09,086 - __main__ - INFO - INCREMENTAL ETL PIPELINE STARTED
+2026-05-30 03:27:09,086 - __main__ - INFO - Run date: 2026-05-30 | Lookback: 2 days
+2026-05-30 03:27:09,091 - __main__ - INFO - ============================================================
+2026-05-30 03:27:09,104 - utils.checkpoints - INFO - No checkpoint found. First run — fetching from: 2026-02-19
+2026-05-30 03:27:09,109 - __main__ - INFO - Fetch window: 2026-02-19 → 2026-05-30
+2026-05-30 03:27:09,114 - extractor.extract_api - INFO - Incremental extraction | fetch_from: 2026-02-19 | symbols: ['IBM', 'AAPL', 'TSCO.LON', 'MSFT']
+2026-05-30 03:27:09,118 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=IBM
+2026-05-30 03:27:12,904 - extractor.extract_api - WARNING - Rate limit hit for IBM: We have detected your API key as KTVQQKI4CAGK9HF5 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2026-05-30 03:27:12,907 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=AAPL
+2026-05-30 03:27:13,405 - extractor.extract_api - WARNING - Rate limit hit for AAPL: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 03:27:13,406 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=TSCO.LON
+2026-05-30 03:27:13,842 - extractor.extract_api - WARNING - Rate limit hit for TSCO.LON: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 03:27:13,846 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=KTVQQKI4CAGK9HF5&symbol=MSFT
+2026-05-30 03:27:14,446 - extractor.extract_api - WARNING - Rate limit hit for MSFT: We have detected your API key as KTVQQKI4CAGK9HF5 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2026-05-30 03:27:14,452 - extractor.extract_api - INFO - Saving filtered data (0 symbols) to: data/raw/stock_market.json
+2026-05-30 03:27:14,461 - extractor.extract_api - INFO - Raw incremental data saved.
+2026-05-30 03:27:14,464 - __main__ - INFO - No data returned from API for this window. Pipeline complete.
+2026-05-30 03:46:49,256 - __main__ - INFO - ============================================================
+2026-05-30 03:46:49,259 - __main__ - INFO - INCREMENTAL ETL PIPELINE STARTED
+2026-05-30 03:46:49,262 - __main__ - INFO - Run date: 2026-05-30 | Lookback: 2 days
+2026-05-30 03:46:49,263 - __main__ - INFO - ============================================================
+2026-05-30 03:46:49,266 - utils.checkpoints - INFO - No checkpoint found. First run — fetching from: 2026-02-19
+2026-05-30 03:46:49,267 - __main__ - INFO - Fetch window: 2026-02-19 → 2026-05-30
+2026-05-30 03:46:49,268 - extractor.extract_api - INFO - Incremental extraction | fetch_from: 2026-02-19 | symbols: ['IBM', 'AAPL', 'TSCO.LON', 'MSFT']
+2026-05-30 03:46:49,268 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=IBM
+2026-05-30 03:46:50,226 - extractor.extract_api - WARNING - Rate limit hit for IBM: We have detected your API key as 653652383c661aa5746702ed81d40616 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2026-05-30 03:46:50,227 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=AAPL
+2026-05-30 03:46:50,719 - extractor.extract_api - WARNING - Rate limit hit for AAPL: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 03:46:50,719 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=TSCO.LON
+2026-05-30 03:46:51,233 - extractor.extract_api - WARNING - Rate limit hit for TSCO.LON: We have detected your API key as 653652383c661aa5746702ed81d40616 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2026-05-30 03:46:51,235 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=MSFT
+2026-05-30 03:46:51,690 - extractor.extract_api - WARNING - Rate limit hit for MSFT: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 03:46:51,700 - extractor.extract_api - INFO - Saving filtered data (0 symbols) to: data/raw/stock_market.json
+2026-05-30 03:46:51,709 - extractor.extract_api - INFO - Raw incremental data saved.
+2026-05-30 03:46:51,713 - __main__ - INFO - No data returned from API for this window. Pipeline complete.
+2026-05-30 13:34:38,204 - __main__ - INFO - ============================================================
+2026-05-30 13:34:38,206 - __main__ - INFO - INCREMENTAL ETL PIPELINE STARTED
+2026-05-30 13:34:38,207 - __main__ - INFO - Run date: 2026-05-30 | Lookback: 2 days
+2026-05-30 13:34:38,209 - __main__ - INFO - ============================================================
+2026-05-30 13:34:38,215 - utils.checkpoints - INFO - No checkpoint found. First run — fetching from: 2026-02-19
+2026-05-30 13:34:38,216 - __main__ - INFO - Fetch window: 2026-02-19 → 2026-05-30
+2026-05-30 13:34:38,217 - extractor.extract_api - INFO - Incremental extraction | fetch_from: 2026-02-19 | symbols: ['IBM', 'AAPL', 'TSCO.LON', 'MSFT']
+2026-05-30 13:34:38,219 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=IBM
+2026-05-30 13:34:39,806 - extractor.extract_api - INFO - IBM: 100 total records → 70 records in window (>= 2026-02-19)
+2026-05-30 13:34:39,807 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=AAPL
+2026-05-30 13:34:40,262 - extractor.extract_api - WARNING - Rate limit hit for AAPL: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 13:34:40,263 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=TSCO.LON
+2026-05-30 13:34:40,770 - extractor.extract_api - INFO - TSCO.LON: 100 total records → 68 records in window (>= 2026-02-19)
+2026-05-30 13:34:40,772 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=MSFT
+2026-05-30 13:34:41,221 - extractor.extract_api - WARNING - Rate limit hit for MSFT: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 13:34:41,506 - extractor.extract_api - INFO - Saving filtered data (2 symbols) to: /app/data/raw/stock_market.json
+2026-05-30 13:34:41,565 - extractor.extract_api - INFO - Raw incremental data saved.
+2026-05-30 13:34:41,568 - __main__ - INFO - Initialising SparkSession...
+2026-05-30 13:35:15,697 - __main__ - INFO - BRONZE: Flattening windowed JSON...
+2026-05-30 13:35:15,701 - transformer.transform_data - INFO - Reading windowed JSON from: /app/data/raw/stock_market.json
+2026-05-30 13:35:15,806 - transformer.transform_data - INFO - Flattening symbol: IBM
+2026-05-30 13:35:15,810 - transformer.transform_data - INFO - Flattening symbol: TSCO.LON
+2026-05-30 13:35:15,812 - transformer.transform_data - INFO - Total rows in window: 138
+2026-05-30 13:35:29,958 - transformer.transform_data - INFO - Bronze DataFrame created.
+2026-05-30 13:35:39,416 - __main__ - INFO - INCREMENTAL FILTER: Removing already-loaded rows...
+2026-05-30 13:35:39,432 - transformer.transform_data - INFO - Checking existing records in PostgreSQL (incremental filter)...
+2026-05-30 13:35:50,243 - transformer.transform_data - WARNING - Could not read existing table (first run?): An error occurred while calling o50.load.
+: org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:358)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273)
+	at org.postgresql.Driver.makeConnection(Driver.java:446)
+	at org.postgresql.Driver.connect(Driver.java:298)
+	at org.apache.spark.sql.execution.datasources.jdbc.connection.BasicConnectionProvider.getConnection(BasicConnectionProvider.scala:49)
+	at org.apache.spark.sql.execution.datasources.jdbc.connection.ConnectionProviderBase.create(ConnectionProvider.scala:102)
+	at org.apache.spark.sql.jdbc.JdbcDialect.$anonfun$createConnectionFactory$1(JdbcDialects.scala:160)
+	at org.apache.spark.sql.jdbc.JdbcDialect.$anonfun$createConnectionFactory$1$adapted(JdbcDialects.scala:156)
+	at org.apache.spark.sql.execution.datasources.jdbc.JDBCRDD$.getQueryOutputSchema(JDBCRDD.scala:63)
+	at org.apache.spark.sql.execution.datasources.jdbc.JDBCRDD$.resolveTable(JDBCRDD.scala:58)
+	at org.apache.spark.sql.execution.datasources.jdbc.JDBCRelation$.getSchema(JDBCRelation.scala:241)
+	at org.apache.spark.sql.execution.datasources.jdbc.JdbcRelationProvider.createRelation(JdbcRelationProvider.scala:37)
+	at org.apache.spark.sql.execution.datasources.DataSource.resolveRelation(DataSource.scala:346)
+	at org.apache.spark.sql.DataFrameReader.loadV1Source(DataFrameReader.scala:229)
+	at org.apache.spark.sql.DataFrameReader.$anonfun$load$2(DataFrameReader.scala:211)
+	at scala.Option.getOrElse(Option.scala:189)
+	at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:211)
+	at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:172)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:75)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:52)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.net.UnknownHostException: postgres
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:567)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at org.postgresql.core.PGStream.createSocket(PGStream.java:243)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:98)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:136)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:262)
+	... 30 more
+. Processing all incoming rows.
+2026-05-30 13:35:51,816 - __main__ - INFO - SILVER: Validating new rows...
+2026-05-30 13:35:51,816 - transformer.transform_data - INFO - Running Silver layer checks on new rows...
+2026-05-30 13:35:52,975 - transformer.transform_data - INFO - NULL CHECK PASSED: 'open'
+2026-05-30 13:35:54,861 - transformer.transform_data - INFO - NULL CHECK PASSED: 'high'
+2026-05-30 13:35:55,659 - transformer.transform_data - INFO - NULL CHECK PASSED: 'low'
+2026-05-30 13:35:56,688 - transformer.transform_data - INFO - NULL CHECK PASSED: 'close'
+2026-05-30 13:35:57,402 - transformer.transform_data - INFO - NULL CHECK PASSED: 'volume'
+2026-05-30 13:36:02,091 - transformer.transform_data - INFO - DUPLICATE CHECK PASSED.
+2026-05-30 13:36:02,097 - transformer.transform_data - INFO - Silver layer ready.
+2026-05-30 13:36:02,100 - __main__ - INFO - GOLD: Applying transformations...
+2026-05-30 13:36:02,101 - transformer.transform_data - INFO - Applying Gold layer transformations...
+2026-05-30 13:36:02,312 - transformer.transform_data - INFO - Gold layer ready.
+2026-05-30 13:36:06,165 - transformer.transform_data - INFO - Max date in current batch: 2026-05-29
+2026-05-30 13:36:06,542 - loader.load_postgres - INFO - Loading 138 new rows → table: 'stock_daily' | mode: append | url: jdbc:postgresql://postgres:5432/wajiddb
+2026-05-30 13:36:10,866 - loader.load_postgres - ERROR - Failed to load into PostgreSQL: An error occurred while calling o116.save.
+: org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:358)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273)
+	at org.postgresql.Driver.makeConnection(Driver.java:446)
+	at org.postgresql.Driver.connect(Driver.java:298)
+	at org.apache.spark.sql.execution.datasources.jdbc.connection.BasicConnectionProvider.getConnection(BasicConnectionProvider.scala:49)
+	at org.apache.spark.sql.execution.datasources.jdbc.connection.ConnectionProviderBase.create(ConnectionProvider.scala:102)
+	at org.apache.spark.sql.jdbc.JdbcDialect.$anonfun$createConnectionFactory$1(JdbcDialects.scala:160)
+	at org.apache.spark.sql.jdbc.JdbcDialect.$anonfun$createConnectionFactory$1$adapted(JdbcDialects.scala:156)
+	at org.apache.spark.sql.execution.datasources.jdbc.JdbcRelationProvider.createRelation(JdbcRelationProvider.scala:50)
+	at org.apache.spark.sql.execution.datasources.SaveIntoDataSourceCommand.run(SaveIntoDataSourceCommand.scala:48)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult$lzycompute(commands.scala:75)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult(commands.scala:73)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.executeCollect(commands.scala:84)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.$anonfun$applyOrElse$1(QueryExecution.scala:107)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$6(SQLExecution.scala:125)
+	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:201)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:108)
+	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:900)
+	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:66)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:107)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:98)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformDownWithPruning$1(TreeNode.scala:461)
+	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(origin.scala:76)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDownWithPruning(TreeNode.scala:461)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.org$apache$spark$sql$catalyst$plans$logical$AnalysisHelper$$super$transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning(AnalysisHelper.scala:267)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning$(AnalysisHelper.scala:263)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:437)
+	at org.apache.spark.sql.execution.QueryExecution.eagerlyExecuteCommands(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted$lzycompute(QueryExecution.scala:85)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:83)
+	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:142)
+	at org.apache.spark.sql.DataFrameWriter.runCommand(DataFrameWriter.scala:859)
+	at org.apache.spark.sql.DataFrameWriter.saveToV1Source(DataFrameWriter.scala:388)
+	at org.apache.spark.sql.DataFrameWriter.saveInternal(DataFrameWriter.scala:361)
+	at org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:248)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:75)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:52)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.net.UnknownHostException: postgres
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:567)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at org.postgresql.core.PGStream.createSocket(PGStream.java:243)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:98)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:136)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:262)
+	... 50 more
+Traceback (most recent call last):
+  File "/app/loader/load_postgres.py", line 84, in load_into_postgres
+    .save()
+  File "/usr/local/lib/python3.10/site-packages/pyspark/sql/readwriter.py", line 1461, in save
+    self._jwrite.save()
+  File "/usr/local/lib/python3.10/site-packages/py4j/java_gateway.py", line 1322, in __call__
+    return_value = get_return_value(
+  File "/usr/local/lib/python3.10/site-packages/pyspark/errors/exceptions/captured.py", line 179, in deco
+    return f(*a, **kw)
+  File "/usr/local/lib/python3.10/site-packages/py4j/protocol.py", line 326, in get_return_value
+    raise Py4JJavaError(
+py4j.protocol.Py4JJavaError: An error occurred while calling o116.save.
+: org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:358)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273)
+	at org.postgresql.Driver.makeConnection(Driver.java:446)
+	at org.postgresql.Driver.connect(Driver.java:298)
+	at org.apache.spark.sql.execution.datasources.jdbc.connection.BasicConnectionProvider.getConnection(BasicConnectionProvider.scala:49)
+	at org.apache.spark.sql.execution.datasources.jdbc.connection.ConnectionProviderBase.create(ConnectionProvider.scala:102)
+	at org.apache.spark.sql.jdbc.JdbcDialect.$anonfun$createConnectionFactory$1(JdbcDialects.scala:160)
+	at org.apache.spark.sql.jdbc.JdbcDialect.$anonfun$createConnectionFactory$1$adapted(JdbcDialects.scala:156)
+	at org.apache.spark.sql.execution.datasources.jdbc.JdbcRelationProvider.createRelation(JdbcRelationProvider.scala:50)
+	at org.apache.spark.sql.execution.datasources.SaveIntoDataSourceCommand.run(SaveIntoDataSourceCommand.scala:48)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult$lzycompute(commands.scala:75)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult(commands.scala:73)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.executeCollect(commands.scala:84)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.$anonfun$applyOrElse$1(QueryExecution.scala:107)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$6(SQLExecution.scala:125)
+	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:201)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:108)
+	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:900)
+	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:66)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:107)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:98)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformDownWithPruning$1(TreeNode.scala:461)
+	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(origin.scala:76)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDownWithPruning(TreeNode.scala:461)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.org$apache$spark$sql$catalyst$plans$logical$AnalysisHelper$$super$transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning(AnalysisHelper.scala:267)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning$(AnalysisHelper.scala:263)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:437)
+	at org.apache.spark.sql.execution.QueryExecution.eagerlyExecuteCommands(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted$lzycompute(QueryExecution.scala:85)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:83)
+	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:142)
+	at org.apache.spark.sql.DataFrameWriter.runCommand(DataFrameWriter.scala:859)
+	at org.apache.spark.sql.DataFrameWriter.saveToV1Source(DataFrameWriter.scala:388)
+	at org.apache.spark.sql.DataFrameWriter.saveInternal(DataFrameWriter.scala:361)
+	at org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:248)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:75)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:52)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.net.UnknownHostException: postgres
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:567)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at org.postgresql.core.PGStream.createSocket(PGStream.java:243)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:98)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:136)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:262)
+	... 50 more
+
+2026-05-30 13:36:13,888 - __main__ - ERROR - Pipeline failed: An error occurred while calling o116.save.
+: org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:358)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273)
+	at org.postgresql.Driver.makeConnection(Driver.java:446)
+	at org.postgresql.Driver.connect(Driver.java:298)
+	at org.apache.spark.sql.execution.datasources.jdbc.connection.BasicConnectionProvider.getConnection(BasicConnectionProvider.scala:49)
+	at org.apache.spark.sql.execution.datasources.jdbc.connection.ConnectionProviderBase.create(ConnectionProvider.scala:102)
+	at org.apache.spark.sql.jdbc.JdbcDialect.$anonfun$createConnectionFactory$1(JdbcDialects.scala:160)
+	at org.apache.spark.sql.jdbc.JdbcDialect.$anonfun$createConnectionFactory$1$adapted(JdbcDialects.scala:156)
+	at org.apache.spark.sql.execution.datasources.jdbc.JdbcRelationProvider.createRelation(JdbcRelationProvider.scala:50)
+	at org.apache.spark.sql.execution.datasources.SaveIntoDataSourceCommand.run(SaveIntoDataSourceCommand.scala:48)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult$lzycompute(commands.scala:75)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult(commands.scala:73)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.executeCollect(commands.scala:84)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.$anonfun$applyOrElse$1(QueryExecution.scala:107)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$6(SQLExecution.scala:125)
+	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:201)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:108)
+	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:900)
+	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:66)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:107)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:98)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformDownWithPruning$1(TreeNode.scala:461)
+	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(origin.scala:76)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDownWithPruning(TreeNode.scala:461)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.org$apache$spark$sql$catalyst$plans$logical$AnalysisHelper$$super$transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning(AnalysisHelper.scala:267)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning$(AnalysisHelper.scala:263)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:437)
+	at org.apache.spark.sql.execution.QueryExecution.eagerlyExecuteCommands(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted$lzycompute(QueryExecution.scala:85)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:83)
+	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:142)
+	at org.apache.spark.sql.DataFrameWriter.runCommand(DataFrameWriter.scala:859)
+	at org.apache.spark.sql.DataFrameWriter.saveToV1Source(DataFrameWriter.scala:388)
+	at org.apache.spark.sql.DataFrameWriter.saveInternal(DataFrameWriter.scala:361)
+	at org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:248)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:75)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:52)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.net.UnknownHostException: postgres
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:567)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at org.postgresql.core.PGStream.createSocket(PGStream.java:243)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:98)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:136)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:262)
+	... 50 more
+Traceback (most recent call last):
+  File "/app/main.py", line 145, in run_pipeline
+    load_into_postgres(gold_df, config["postgres"], mode="append")
+  File "/app/loader/load_postgres.py", line 84, in load_into_postgres
+    .save()
+  File "/usr/local/lib/python3.10/site-packages/pyspark/sql/readwriter.py", line 1461, in save
+    self._jwrite.save()
+  File "/usr/local/lib/python3.10/site-packages/py4j/java_gateway.py", line 1322, in __call__
+    return_value = get_return_value(
+  File "/usr/local/lib/python3.10/site-packages/pyspark/errors/exceptions/captured.py", line 179, in deco
+    return f(*a, **kw)
+  File "/usr/local/lib/python3.10/site-packages/py4j/protocol.py", line 326, in get_return_value
+    raise Py4JJavaError(
+py4j.protocol.Py4JJavaError: An error occurred while calling o116.save.
+: org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:358)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273)
+	at org.postgresql.Driver.makeConnection(Driver.java:446)
+	at org.postgresql.Driver.connect(Driver.java:298)
+	at org.apache.spark.sql.execution.datasources.jdbc.connection.BasicConnectionProvider.getConnection(BasicConnectionProvider.scala:49)
+	at org.apache.spark.sql.execution.datasources.jdbc.connection.ConnectionProviderBase.create(ConnectionProvider.scala:102)
+	at org.apache.spark.sql.jdbc.JdbcDialect.$anonfun$createConnectionFactory$1(JdbcDialects.scala:160)
+	at org.apache.spark.sql.jdbc.JdbcDialect.$anonfun$createConnectionFactory$1$adapted(JdbcDialects.scala:156)
+	at org.apache.spark.sql.execution.datasources.jdbc.JdbcRelationProvider.createRelation(JdbcRelationProvider.scala:50)
+	at org.apache.spark.sql.execution.datasources.SaveIntoDataSourceCommand.run(SaveIntoDataSourceCommand.scala:48)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult$lzycompute(commands.scala:75)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult(commands.scala:73)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.executeCollect(commands.scala:84)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.$anonfun$applyOrElse$1(QueryExecution.scala:107)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$6(SQLExecution.scala:125)
+	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:201)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:108)
+	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:900)
+	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:66)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:107)
+	at org.apache.spark.sql.execution.QueryExecution$$anonfun$eagerlyExecuteCommands$1.applyOrElse(QueryExecution.scala:98)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.$anonfun$transformDownWithPruning$1(TreeNode.scala:461)
+	at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(origin.scala:76)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDownWithPruning(TreeNode.scala:461)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.org$apache$spark$sql$catalyst$plans$logical$AnalysisHelper$$super$transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning(AnalysisHelper.scala:267)
+	at org.apache.spark.sql.catalyst.plans.logical.AnalysisHelper.transformDownWithPruning$(AnalysisHelper.scala:263)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.plans.logical.LogicalPlan.transformDownWithPruning(LogicalPlan.scala:32)
+	at org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:437)
+	at org.apache.spark.sql.execution.QueryExecution.eagerlyExecuteCommands(QueryExecution.scala:98)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted$lzycompute(QueryExecution.scala:85)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:83)
+	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:142)
+	at org.apache.spark.sql.DataFrameWriter.runCommand(DataFrameWriter.scala:859)
+	at org.apache.spark.sql.DataFrameWriter.saveToV1Source(DataFrameWriter.scala:388)
+	at org.apache.spark.sql.DataFrameWriter.saveInternal(DataFrameWriter.scala:361)
+	at org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:248)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:75)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:52)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.net.UnknownHostException: postgres
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:567)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:751)
+	at org.postgresql.core.PGStream.createSocket(PGStream.java:243)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:98)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:136)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:262)
+	... 50 more
+
+2026-05-30 13:36:14,691 - __main__ - INFO - SparkSession stopped.
+2026-05-30 13:42:05,822 - __main__ - INFO - ============================================================
+2026-05-30 13:42:05,839 - __main__ - INFO - INCREMENTAL ETL PIPELINE STARTED
+2026-05-30 13:42:05,845 - __main__ - INFO - Run date: 2026-05-30 | Lookback: 2 days
+2026-05-30 13:42:05,847 - __main__ - INFO - ============================================================
+2026-05-30 13:42:05,851 - utils.checkpoints - INFO - No checkpoint found. First run — fetching from: 2026-02-19
+2026-05-30 13:42:05,852 - __main__ - INFO - Fetch window: 2026-02-19 → 2026-05-30
+2026-05-30 13:42:05,853 - extractor.extract_api - INFO - Incremental extraction | fetch_from: 2026-02-19 | symbols: ['IBM', 'AAPL', 'TSCO.LON', 'MSFT']
+2026-05-30 13:42:05,855 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=IBM
+2026-05-30 13:42:07,592 - extractor.extract_api - INFO - IBM: 100 total records → 70 records in window (>= 2026-02-19)
+2026-05-30 13:42:07,594 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=AAPL
+2026-05-30 13:42:08,081 - extractor.extract_api - WARNING - Rate limit hit for AAPL: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 13:42:08,081 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=TSCO.LON
+2026-05-30 13:42:08,597 - extractor.extract_api - INFO - TSCO.LON: 100 total records → 68 records in window (>= 2026-02-19)
+2026-05-30 13:42:08,598 - extractor.extract_api - INFO - Fetching: https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616&symbol=MSFT
+2026-05-30 13:42:09,418 - extractor.extract_api - WARNING - Rate limit hit for MSFT: Thank you for using Alpha Vantage! Please consider spreading out your free API requests more sparingly (1 request per second). You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to lift the free key rate limit (25 requests per day), raise the per-second burst limit, and instantly unlock all premium endpoints
+2026-05-30 13:42:09,419 - extractor.extract_api - INFO - Saving filtered data (2 symbols) to: /app/data/raw/stock_market.json
+2026-05-30 13:42:09,708 - extractor.extract_api - INFO - Raw incremental data saved.
+2026-05-30 13:42:09,710 - __main__ - INFO - Initialising SparkSession...
+2026-05-30 13:42:21,592 - __main__ - INFO - BRONZE: Flattening windowed JSON...
+2026-05-30 13:42:21,601 - transformer.transform_data - INFO - Reading windowed JSON from: /app/data/raw/stock_market.json
+2026-05-30 13:42:21,623 - transformer.transform_data - INFO - Flattening symbol: IBM
+2026-05-30 13:42:21,624 - transformer.transform_data - INFO - Flattening symbol: TSCO.LON
+2026-05-30 13:42:21,626 - transformer.transform_data - INFO - Total rows in window: 138
+2026-05-30 13:42:36,891 - transformer.transform_data - INFO - Bronze DataFrame created.
+2026-05-30 13:42:43,002 - __main__ - INFO - INCREMENTAL FILTER: Removing already-loaded rows...
+2026-05-30 13:42:43,007 - transformer.transform_data - INFO - Checking existing records in PostgreSQL (incremental filter)...
+2026-05-30 13:42:44,919 - transformer.transform_data - INFO - Existing records in DB: 0
+2026-05-30 13:42:47,952 - transformer.transform_data - INFO - Incoming: 138 rows | Already in DB: 0 | Genuinely new: 138 rows
+2026-05-30 13:42:51,079 - __main__ - INFO - SILVER: Validating new rows...
+2026-05-30 13:42:51,089 - transformer.transform_data - INFO - Running Silver layer checks on new rows...
+2026-05-30 13:42:52,168 - transformer.transform_data - INFO - NULL CHECK PASSED: 'open'
+2026-05-30 13:42:52,919 - transformer.transform_data - INFO - NULL CHECK PASSED: 'high'
+2026-05-30 13:42:54,226 - transformer.transform_data - INFO - NULL CHECK PASSED: 'low'
+2026-05-30 13:42:54,993 - transformer.transform_data - INFO - NULL CHECK PASSED: 'close'
+2026-05-30 13:42:56,142 - transformer.transform_data - INFO - NULL CHECK PASSED: 'volume'
+2026-05-30 13:43:00,260 - transformer.transform_data - INFO - DUPLICATE CHECK PASSED.
+2026-05-30 13:43:00,261 - transformer.transform_data - INFO - Silver layer ready.
+2026-05-30 13:43:00,262 - __main__ - INFO - GOLD: Applying transformations...
+2026-05-30 13:43:00,263 - transformer.transform_data - INFO - Applying Gold layer transformations...
+2026-05-30 13:43:00,454 - transformer.transform_data - INFO - Gold layer ready.
+2026-05-30 13:43:04,790 - transformer.transform_data - INFO - Max date in current batch: 2026-05-29
+2026-05-30 13:43:05,521 - loader.load_postgres - INFO - Loading 138 new rows → table: 'stock_daily' | mode: append | url: jdbc:postgresql://postgresql:5432/wajiddb
+2026-05-30 13:43:06,765 - loader.load_postgres - INFO - Successfully appended 138 rows to 'stock_daily'.
+2026-05-30 13:43:06,776 - utils.checkpoints - INFO - Checkpoint saved: last_loaded_date = 2026-05-29
+2026-05-30 13:43:06,778 - __main__ - INFO - ============================================================
+2026-05-30 13:43:07,904 - __main__ - INFO - PIPELINE COMPLETE — 0 rows appended
+2026-05-30 13:43:07,911 - __main__ - INFO - Next run will fetch from: 2026-05-29 - 2 days
+2026-05-30 13:43:07,911 - __main__ - INFO - ============================================================
+2026-05-30 13:43:08,415 - __main__ - INFO - SparkSession stopped.

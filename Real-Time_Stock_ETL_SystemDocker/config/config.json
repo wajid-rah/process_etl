@@ -1,0 +1,27 @@
+{
+  "spark": {
+    "app_name" : "Real-Time_Stock_ETL_DOCKER",
+    "postgresql_jars": "/app/jars/postgresql-42.7.3.jar",
+    "python_pyspark": "/usr/local/bin/python3",
+    "python_driver_pyspark": "/usr/local/bin/python3"
+  },
+    "postgres": {
+    "_comment" : "Service name 'postgresql' in docker-compose.yml resolves as hostname inside Docker network",
+    "url": "jdbc:postgresql://postgresql:5432/wajiddb",
+    "driver"   : "org.postgresql.Driver",
+    "dbtable"  : "stock_daily",
+    "user"     : "etluser",
+    "password" : "etlpassword"
+  },
+
+  "api":{
+    "url": "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey=653652383c661aa5746702ed81d40616",
+    "symbols" :  ["IBM", "AAPL", "TSCO.LON", "MSFT"]
+  },
+  "path": {
+    "raw_data_path" : "data/raw/stock_market.json",
+    "log_file_path" : "logs/etl_pipeline.log",
+    "checkpoint_path": "data/checkpoint.json"
+  }
+
+}
