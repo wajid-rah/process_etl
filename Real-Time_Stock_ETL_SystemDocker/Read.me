@@ -1,27 +1,32 @@
 # 📈 Real-Time Stock Market ETL Pipeline
 
-![Python](https://img.shields.io/badge/Python-3.10-blue)
-![PySpark](https://img.shields.io/badge/PySpark-3.5.1-orange)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)
-![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED)
-![ETL](https://img.shields.io/badge/Data%20Pipeline-Incremental-green)
+> Incremental Data Engineering Pipeline using **Alpha Vantage API → PySpark → PostgreSQL → Docker**
 
-An end-to-end incremental ETL pipeline that extracts stock market data from the Alpha Vantage API, processes it through a Medallion Architecture (Bronze → Silver → Gold) using PySpark, and loads analytics-ready data into PostgreSQL.
+<br>
 
----
+## 🚀 Overview
 
-## 🚀 Features
+This project demonstrates an end-to-end ETL pipeline that:
 
-* Extract stock market OHLCV data from Alpha Vantage API
-* PySpark-based Bronze, Silver, and Gold transformations
-* Incremental loading using checkpoint tracking
-* PostgreSQL integration via JDBC
-* Dockerized deployment
-* Structured logging
-* Duplicate prevention using multiple validation layers
-* Analytics-ready Gold dataset
+* Extracts stock market OHLCV data from Alpha Vantage API
+* Processes data using PySpark
+* Implements Medallion Architecture (Bronze → Silver → Gold)
+* Loads analytics-ready data into PostgreSQL
+* Uses incremental loading to avoid duplicate records
+* Runs entirely inside Docker containers
 
----
+<br>
+
+### 📌 Tracked Symbols
+
+```text
+IBM
+AAPL
+MSFT
+TSCO.LON
+```
+
+<br>
 
 ## 🏗️ Architecture
 
@@ -30,22 +35,22 @@ Alpha Vantage API
         │
         ▼
 ┌─────────────────┐
-│     EXTRACT     │
+│    EXTRACT      │
 └────────┬────────┘
          ▼
 ┌─────────────────┐
-│     BRONZE      │
-│ Raw JSON Data   │
+│    BRONZE       │
+│   Raw JSON      │
 └────────┬────────┘
          ▼
 ┌─────────────────┐
-│     SILVER      │
-│ Data Quality    │
+│    SILVER       │
+│ Data Validation │
 └────────┬────────┘
          ▼
 ┌─────────────────┐
-│      GOLD       │
-│ Business Metrics│
+│     GOLD        │
+│ Business Logic  │
 └────────┬────────┘
          ▼
 ┌─────────────────┐
@@ -53,7 +58,30 @@ Alpha Vantage API
 └─────────────────┘
 ```
 
----
+<br>
+
+## 🐳 Docker Architecture
+
+```text
+Laptop
+│
+└── Docker Engine
+    │
+    ├── Network: etl_network
+    │
+    ├── Volume: postgres_data
+    │
+    ├── Container: etl_postgres
+    │       └── PostgreSQL Database
+    │
+    └── Container: etl_pyspark
+            ├── Python
+            ├── Java
+            ├── PySpark
+            └── ETL Pipeline
+```
+
+<br>
 
 ## 📂 Project Structure
 
@@ -91,93 +119,83 @@ process_etl/
 └── README.md
 ```
 
----
+<br>
 
 ## 🛠️ Tech Stack
 
-| Category         | Technology                       |
-| ---------------- | -------------------------------- |
-| Language         | Python 3.10                      |
-| Processing       | Apache PySpark 3.5.1             |
-| Database         | PostgreSQL                       |
-| API              | Alpha Vantage                    |
-| Containerization | Docker, Docker Compose           |
-| Logging          | Python Logging                   |
-| Architecture     | Medallion (Bronze, Silver, Gold) |
+| Category          | Technology              |
+| ----------------- | ----------------------- |
+| Language          | Python 3.10             |
+| Processing Engine | Apache PySpark 3.5.1    |
+| Database          | PostgreSQL              |
+| API Source        | Alpha Vantage           |
+| Containerization  | Docker & Docker Compose |
+| Logging           | Python Logging          |
+| Architecture      | Medallion Architecture  |
 
----
+<br>
 
 ## 🔄 Incremental Load Strategy
 
-The pipeline only loads newly available records.
-
 ```text
 checkpoint.json
-        │
-        ▼
-Fetch recent window
-        │
-        ▼
-Extract API data
-        │
-        ▼
+       │
+       ▼
+Fetch recent data
+       │
+       ▼
+Extract from API
+       │
+       ▼
 Left Anti Join
-(New records only)
-        │
-        ▼
+(Remove existing rows)
+       │
+       ▼
 Load PostgreSQL
-        │
-        ▼
+       │
+       ▼
 Update checkpoint
 ```
 
-### Duplicate Prevention
+### Duplicate Prevention Layers
 
-| Layer          | Technique             |
+| Layer          | Strategy              |
 | -------------- | --------------------- |
-| Extraction     | Date filtering        |
-| Transformation | Left Anti Join        |
+| Extraction     | Date Window Filtering |
+| Transformation | Spark Left Anti Join  |
 | Database       | Composite Primary Key |
 
----
+<br>
 
 ## ⚙️ Getting Started
-
-### Prerequisites
-
-* Docker Desktop
-* Alpha Vantage API Key
 
 ### Clone Repository
 
 ```bash
 git clone https://github.com/wajid-rah/process_etl.git
+
 cd process_etl
 ```
 
-### Configure API Key
-
-Update:
-
-```json
-config/config.json
-```
-
-with your Alpha Vantage API key.
-
-### Build Containers
+### Build Docker Containers
 
 ```bash
 docker compose up -d --build
 ```
 
-### Run Pipeline
+### Verify Containers
+
+```bash
+docker compose ps
+```
+
+### Run ETL Pipeline
 
 ```bash
 docker compose exec pyspark_etl python main.py
 ```
 
----
+<br>
 
 ## 🗄️ Database Schema
 
@@ -197,7 +215,7 @@ CREATE TABLE stock_daily (
 );
 ```
 
----
+<br>
 
 ## 📊 Sample Output
 
@@ -209,23 +227,25 @@ AAPL   | 2026-05-18 | 297.84 | -0.80            | Bearish
 MSFT   | 2026-05-18 | 436.90 | 1.11             | Bullish
 ```
 
----
+<br>
 
 ## 🔮 Future Enhancements
 
-* Apache Airflow orchestration
-* Kafka streaming ingestion
-* Data quality testing with Great Expectations
-* AWS deployment (S3, Glue, RDS)
-* CI/CD using GitHub Actions
-* Dashboarding with Power BI or Tableau
+* Apache Airflow Scheduling
+* Kafka Streaming
+* AWS Deployment
+* CI/CD with GitHub Actions
+* Power BI Dashboard
+* Data Quality Testing
 
----
+<br>
 
 ## 📝 License
 
-This project is intended for learning and portfolio purposes.
+This project is intended for educational and portfolio purposes.
+
+<br>
 
 ---
 
-Built with ❤️ using Python, PySpark, PostgreSQL, and Docker.
+Built with ❤️ using Python, PySpark, PostgreSQL and Docker.
