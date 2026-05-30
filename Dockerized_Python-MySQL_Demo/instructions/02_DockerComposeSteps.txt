@@ -1,0 +1,302 @@
+PROJECT STRUCTURE
+-------------------
+Dockerized_Python-MySQL_Demo/  (LAPTOP)
+	│
+	├── app.py
+	├── requirements.txt
+	├── Dockerfile
+	└── docker-compose.yml
+	│
+	└── init/
+		└── init.sql
+
+					LAPTOP
+		==================================================	
+STEP 1: CREATE PROJECT FOLDER 
+		Dockerized_Python-MySQL_Demo
+STEP 2: CREATE init FOLDER
+		Dockerized_Python-MySQL_Demo/  (LAPTOP)
+		└── init/📌
+			└── init.sql
+			
+				USE testdb;
+				
+				CREATE TABLE employees (
+					id INT,
+					name VARCHAR(100)
+				);
+				
+				INSERT INTO employees VALUES
+				(1, 'Rahul'),
+				(2, 'Amit');
+
+
+STEP 3: CREATE app.py
+		Dockerized_Python-MySQL_Demo/  (LAPTOP)
+		│
+		├── init/
+		│	└── init.sql
+		│
+		└── app.py📌
+			=============================================================================================================
+			import mysql.connector
+			import time
+			
+			print("Waiting for MySQL container...")
+			
+			connection = None
+			
+			# Retry loop until MySQL becomes ready
+			while connection is None:  # MySQL container needs few more seconds to initialize Otherwise Python may try connecting too early.
+			
+				try:
+					connection = mysql.connector.connect(
+						host="mysql_container",
+						user="root",
+						password="root",
+						database="testdb"
+					)
+			
+				except Exception as e:
+					print("MySQL not ready yet...")
+					print("Retrying in 5 seconds...\n")
+					time.sleep(5)
+			
+			print("Connected successfully!\n")
+			
+			# Create cursor object
+			cursor = connection.cursor()
+			
+			# Execute SQL query
+			query = "SELECT * FROM employees"
+			
+			print(f"Executing Query: {query}\n")
+			
+			cursor.execute(query)
+			
+			# Fetch all rows
+			rows = cursor.fetchall()
+			
+			print("Employees Table Data")
+			print("-" * 30)
+			
+			for row in rows:
+				print(f"ID: {row[0]} | Name: {row[1]}")
+			
+			print("-" * 30)
+			
+			# Close resources
+			cursor.close()
+			connection.close()
+			
+			print("\nConnection closed.")
+			
+			=============================================================================================================
+
+STEP 3: CREATE requirements.txt
+		Dockerized_Python-MySQL_Demo/  (LAPTOP)
+		│
+		├── init/
+		│	└── init.sql
+		│
+		├── app.py
+		└── requirements.txt📌
+				mysql-connector-python
+
+STEP4 : CREATE Dockerfile
+
+		Dockerized_Python-MySQL_Demo/  (LAPTOP)
+		│
+		├── init/
+		│	└── init.sql
+		│
+		├── app.py
+		├── requirements.txt
+		└── Dockerfile📌
+			
+			FROM python:3.10-slim
+			WORKDIR /app
+			COPY requirements.txt .
+			RUN pip install -r requirements.txt
+			COPY . .
+			CMD ["python", "app.py"]
+			
+			
+				
+		IDEA
+		---------------
+		CONTAINER (Linux)  [FROM python:3.10-slim
+		/                 ← root folder]
+		│
+		├── bin/
+		├── usr/
+		├── lib/
+		└── app/          ← 1. CURRENT WORKING DIRECTORY
+			│				2. COPY requirment.txt[LAPTOP -> LINUX CONTAINER]
+			├── requirements.txt  
+			└── app.py
+			
+			3. Install necessary dependencies
+			4. COPY all dependencies eg app.py [Laptop -> Linux Container]
+			5. Then Runs:
+				/app/app.py
+			
+		
+			===================================================================
+			|IMPORTANT
+			|	Docker checks:
+			|		Did anything change in this layer?
+			|		
+			|	If NOT:
+			|		Reuse old cached layer
+			|		instead of rebuilding.
+			|
+			|
+			|Docker builds in LAYERS
+			|and reuses cached layers to make rebuilds MUCH faster.
+			|
+			|EXAMPLE
+			|
+			|	FROM python:3.10-slim
+			|			↓ Layer 1
+			|	
+			|	WORKDIR /app
+			|			↓ Layer 2
+			|	
+			|	COPY requirements.txt .
+			|			↓ Layer 3
+			|	
+			|	RUN pip install
+			|			↓ Layer 4
+			|	
+			|	COPY . .
+			|			↓ Layer 5
+			|	
+			|	Docker caches each layer.
+			|
+			|
+			|
+			|SCENARIO 1 — BAD APPROACH
+			|	COPY . .
+			|		↓
+			|	RUN pip install -r requirements.txt
+			|	
+			|
+			|VISUALIZE BAD FLOW
+			|	Changed app.py  [When modify only app.py]
+			|	↓
+			|	COPY . . changes [Docker sees COPY. . changes and whole project is copied]
+			|	↓
+			|	pip install runs again ❌ [Docker invalidates cache for:
+			|								RUN pip install
+			|						and reinstalls EVERYTHING again.
+			|						Even though requirements.txt unchanged.]
+			|						
+			|						
+			|SCENARIO 2 — GOOD APPROACH
+			|
+			|	COPY requirements.txt .
+			|		↓  (Layer 1)
+			|		
+			|	RUN pip install -r requirements.txt
+			|		↓	(Layer2)
+			|		
+			|	COPY . .
+			|	
+			|	
+			|VISUALIZE GOOD FLOW
+			|	Changed app.py [Suppose only app.py changed]
+			|	↓  
+			|	
+			|	requirements.txt unchanged [Docker checks whether this layer changed. No, So Docker reuses cache.
+			|	↓ (Layer 1)
+			|	
+			|	Use cached pip install ✅ [Also reuse cache: No reinstall]
+			|	↓ (Layer 2)
+			|	
+			|	Only copy source code again [only app.py changed so copy again]
+			===================================================================
+			
+			
+STEP 5: CREATE docker-compose.yml
+		Dockerized_Python-MySQL_Demo/  (LAPTOP)
+		│
+		├── init/
+		│	└── init.sql
+		│
+		├── app.py
+		├── requirements.txt
+		├── Dockerfile
+		└── docker-compose.yml 📌
+					│
+					├── MySQL Container
+					│      └── init.sql [/docker-entrypoint-initdb.d/init.sql] <- FIRST TIME database initializes
+					│             ├── CREATE TABLE
+					│             └── INSERT DATA
+					│
+					└── python_container
+						└── app.py
+								↓
+						host=mysql_container
+						
+				docker-compose.yml
+				-------------------------------
+				version: '3.9'
+				services:                        # List of container
+				
+					 # MySQL database container
+					mysql_container:
+					
+						image: mysql:8.0         # PULL MySQL image
+					
+						container_name: mysql_container
+					
+						environment:
+							MYSQL_ROOT_PASSWORD: root
+							MYSQL_DATABASE: testdb
+					
+						ports:
+						- "3307:3306"  #LAPTOP:3307  -> MYSQL CONTAINER:3306
+						    
+						volumes:   # MySQL data persists in Docker volumes.
+							- ./init:/docker-entrypoint-initdb.d  # ./init  <-> /docker-entrypoint-initdb.d 
+																  # HOST PATH <-> CONTAINER PATH ie init.sql is mounted to /docker-entrypoint-initdb.d and becomes persists
+							
+					# Python container
+					python_container:
+					
+						build: .   # Build python image using Dockerfile in current folder
+					
+						container_name: python_container
+					
+						depends_on:     # Start MySQL container first
+							- mysql_container
+
+STEP 6: RUN Docker compose in terminal 
+    * docker ps -a 
+			CONTAINER ID   IMAGE              COMMAND                  CREATED        STATUS                       PORTS     NAMES
+			80a55c0d6db6   python:3.10-slim   "bash"                   2 hours ago    Exited (137) 9 minutes ago             python_container
+			494109bc1e2c   mysql:8.0          "docker-entrypoint.s…"   2 hours ago    Exited (137) 9 minutes ago             mysql_container
+
+		- If mysql_container and python_container is present then delete both container using
+			* docker rm -f mysql_container
+			* docker rm -f python_container
+			
+	* docker compose up
+			FLOW
+			---------------------------
+			1. Creates network
+			2. Pulls mysql image
+			3. Builds python image
+			4. Starts mysql container
+			5. Starts python container
+			6. Containers communicate
+			---------------------------
+			
+	* If some application code changes then use 
+		docker compose up --build
+		
+	* docker compose down -v
+		│
+		├── Remove containers
+		└── Remove database storage

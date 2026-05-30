@@ -1,0 +1,160 @@
+Container ↔ Container communication
+	Python inside Container
+			↓
+	Connect to
+			↓
+	MySQL inside another Container
+	
+		
+	Docker Network
+	│
+	├── mysql_container  	host="mysql_container"
+	└── python_container 	host="localhost"
+	
+	CREATING DOCKER NETWORK
+	--------------------------
+	* docker network create my_network  --> Docker creates private network  "my_network"
+	
+	* docker network ls
+				NETWORK ID     NAME         DRIVER    SCOPE
+				--------------------------------------------
+				375f19554d9c   bridge       bridge    local
+				8146b85ac846   host         host      local
+				cd856269a405   my_network   bridge    local  ***
+				384312da94aa   none         null      local
+				
+
+	START MYSQL CONTAINER INSIDE NETWORK
+	------------------------------------
+	
+	* docker pull mysql:8.0
+	* If already created container mysql_container [Like deallocate OBJECT]
+		* docker stop mysql_container
+		* docker rm -f mysql_container
+		
+	* docker run -d --name mysql_container --network my_network -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=testdb -p 3307:3306 mysql:8.0
+			-d 						: Detached mode and container run in background 
+			--name mysql_container	: Name of container to communicate by 
+			-e  					: Environment variable settings.
+				* MYSQL_ROOT_PASSWORD=root  : Sets root password 
+				* MYSQL_DATABASE=testdb		: Automatically creates databases
+			-p 3307: 3306  					: Bind port  Laptop 3306 --> container:3306
+		**	--network my_network			: This connects container into network 
+	
+						my_network
+						│
+						└── mysql_container
+						
+					
+	* docker ps --> verify docker running 
+			CONTAINER ID   IMAGE       COMMAND                  CREATED         STATUS         PORTS                                         NAMES
+			8d3350f6779b   mysql:8.0   "docker-entrypoint.s…"   4 minutes ago   Up 4 minutes   0.0.0.0:3307->3306/tcp, [::]:3307->3306/tcp   mysql_containe	r
+	
+	*	docker exec -it mysql_container bash  --> Enter inside mysql container 
+		 LINUX CONTAINER 
+		 * mysql -u root -p
+			
+			MYSQL
+			* show databases  --> testdb 
+			* Use testdb 
+			* CREATE TABLE employees (
+				id INT,
+				name VARCHAR(100)
+			);
+				
+			* INSERT INTO employees VALUES
+				(1, 'Rahul'),
+				(2, 'Amit');
+			* SELECT * FROM employees;
+					+------+-------+
+					| id   | name  |
+					+------+-------+
+					|    1 | RAHUL |
+					|    2 | AMIT  |
+					+------+-------+
+					
+			* exit --> to exit MYSQL 
+		* exit --> to leave LINUX CONTAINER
+				
+	
+	START PYTHON CONTAINER INSIDE SAME NETWORK
+	--------------------------------------------
+	* docker ps -a 
+	
+			CONTAINER ID   IMAGE              COMMAND                  CREATED          STATUS                      PORTS                                         NAMES                                        
+			------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			8d3350f6779b   mysql:8.0          "docker-entrypoint.s…"   25 minutes ago   Up 25 minutes               0.0.0.0:3307->3306/tcp, [::]:3307->3306/tcp   mysql_container
+			d913ee55e176   python:3.10-slim   "bash"                   43 minutes ago   Exited (0) 32 minutes ago                                                 hardcore_hypatia
+			78003c2c65bf   python:3.10-slim   "bash"                   9 hours ago      Exited (0) 8 hours ago                                                    great_thompson
+			------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			
+			CONCEPT
+			-----------------------------------------------------------------------------------------------------------------------------------------------------
+			|One image [Blueprint] can create multiple container [OBJECT]
+			|	python:3.10-slim  (IMAGE)
+			|	│
+			|	├── Container 1 → hardcore_hypatia  (contain mysql-connector in python) *** <- Assume Need to choose and 
+			|	│																			cannot use "docker run -it python:3.10-slim bash"
+			|	└── Container 2 → great_thompson
+			|	
+			|	* docker exec -it hardcore_hypatia bash 
+			-----------------------------------------------------------------------------------------------------------------------------------------------------
+	* If already created container python_container [Like deallocate OBJECT]
+		* docker stop python_container
+		* docker rm -f python_container
+				   
+	* docker run -it --name python_container --network my_network python:3.10-slim bash   
+						[Note: use 'run' for image and 'exec' for container]
+						
+					my_network
+					│
+					├── mysql_container
+					└── python_container
+	
+		NOTE: IN CASE python_container has stopped running [docker] then use 
+			* docker start python_container
+			
+			  If then want to use linux container 
+			* docker exec -it python_container bash
+					
+		PYTHON LINUX CONTAINER
+		----------------------
+		* pip install mysql-connector-python
+		* apt-get update && apt-get install nano -y   # Install Nano editor for creating python file 
+		* nano app.py		
+					import mysql.connector
+
+					print("Connecting to MySQL...")
+					
+					connection = mysql.connector.connect(
+						host="mysql_container",    # <---- DOCKER IDENTIFIES this host to connect
+						user="root",
+						password="root",
+						database="testdb"
+					)
+					
+					print("Connected successfully!")
+					
+					cursor = connection.cursor()
+					
+					cursor.execute("SELECT * FROM employees")
+					
+					rows = cursor.fetchall()
+					
+					for row in rows:
+						print(row)
+					
+					connection.close()
+					
+					print("Connection closed.")
+					
+					SAVE
+					--------
+						* CTRL+O
+						* ENTER
+						* CTRL+X
+		* python app.py 
+		* To test the network connection to mysql_container
+			-> apt-get update && apt-get install iputils-ping 
+			-> ping mysql_container
+		* exit --> to exit LINUX CONTAINER 
