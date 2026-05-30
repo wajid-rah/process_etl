@@ -358,202 +358,119 @@ MSFT   | 2026-05-18 | 432.10 | 438.50 | 430.20 | 436.90 | 18921000 |        8.30
 
 ---
 
-## .gitignore Recommendation
+# 📝 Logging
 
-```gitignore
-# Sensitive config
-config/config.json
+Logs are automatically written to:
 
-# Generated data
-data/raw/
-data/checkpoint.json
+```text
+logs/etl_pipeline.log
+```
 
-# Logs
-logs/
+View live logs:
 
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-.env
-
-# Docker volumes
-postgres_data/
+```bash
+docker compose logs -f pyspark_etl
 ```
 
 ---
 
-*Built with Python · PySpark · PostgreSQL · Docker*
+# 🔧 Useful Commands
 
+### Start Containers
 
-I want to add steps by steps also .
-api_etl_project/
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── config/
-│   └── config.json
-├── extractor/
-│   └── extract_api.py
-├── transformer/
-│   └── transformation_data.py
-├── loader/
-│   └── load_postgres.py
-├── utils/
-│   └── logger.py
-├── data/
-│   └── raw/
-├── logs/
-└── main.py
+```bash
+docker compose up -d
+```
 
+### Rebuild Containers
 
-Laptop                         Container /app/
-├── main.py          ←sync→   ├── main.py
-├── config/          ←sync→   ├── config/
-├── extractor/       ←sync→   ├── extractor/
-├── transformer/     ←sync→   ├── transformer/
-├── loader/          ←sync→   ├── loader/
-├── utils/           ←sync→   ├── utils/
-├── data/            ←sync→   ├── data/
-└── logs/            ←sync→   ├── logs/
-                              └── jars/   ← NOT mounted, stays safe ✅
+```bash
+docker compose up -d --build
+```
 
-requirements.txt
-pyspark==3.5.1
-requests==2.31.0
-psycopg2-binary==2.9.9
+### Stop Containers
 
-Dockerfile
-# ── Base image: official Python slim (lightweight) ──────────────────────────
-FROM python:3.10-slim
+```bash
+docker compose down
+```
 
-# ── Install Java (PySpark requires JVM) ──────────────────────────────────────
-RUN apt-get update && apt-get install -y \
-    default-jdk \
-    curl \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+### Stop & Remove Database Data
 
-#	What is /var/lib/apt/lists/?
-#	When you run apt-get update, Linux downloads a list of all available packages from the internet and saves them here:
-#	/var/lib/apt/lists/
-#	├── archive.ubuntu.com_ubuntu_dists_...
-#	├── security.ubuntu.com_ubuntu_dists_...
-#	└── ... (many more index files)
-#
-#
-#	What does rm -rf /var/lib/apt/lists/* do?
-#	It deletes everything inside that folder after installation is done.
-#	Part				 Meaning
-#	rm					 remove command
-#	-r					 recursive — delete folder contents too
-#	-f					 force — no confirmation prompt
-#	/var/lib/apt/lists/* everything inside this folder
+```bash
+docker compose down -v
+```
 
+### View Logs
 
-# ── Set Java home (PySpark needs this env var) ────────────────────────────────
-ENV JAVA_HOME=/usr/lib/jvm/default-java
-ENV PATH="${JAVA_HOME}/bin:${PATH}"
+```bash
+docker compose logs -f
+```
 
-# ── Set working directory inside the container ───────────────────────────────
-WORKDIR /app
+### Open PostgreSQL
 
-# ── Copy requirements first (Docker layer caching) ────────────────────────────
-# If requirements.txt hasn't changed, Docker reuses the cached pip install layer
-# This makes rebuilds much faster
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+```bash
+docker exec -it etl_postgres psql -U etluser -d stockdb
+```
 
-# ── Download PostgreSQL JDBC driver ──────────────────────────────────────────
-# With -p, it creates ALL missing folders in the path automatically:
-# If /app/ does not exist → creates /app, then /app/jars/
+---
 
-RUN mkdir -p /app/jars && \
-    curl -o /app/jars/postgresql-42.7.3.jar \
-    https://jdbc.postgresql.org/download/postgresql-42.7.3.jar
+# 📷 Suggested Screenshots
 
-# ── Copy the rest of the project code ────────────────────────────────────────
-COPY . .
+Create:
 
-# ── Default command: run the ETL pipeline ────────────────────────────────────
-CMD ["python", "main.py"]
+```text
+README/images/
+```
 
+Add:
 
+```text
+pipeline_run.png
+postgres_data.png
+docker_containers.png
+```
 
-Docker-compose.yml
+Then display them:
 
-services:
+```markdown
+## Pipeline Run
 
-  # ── PostgreSQL Database ─────────────────────────────────────────────────
-  postgres:
-    image: postgres:15                    # official Postgres image, no build needed
-    container_name: etl_postgres
-    environment:
-      POSTGRES_DB: stockdb               # database name
-      POSTGRES_USER: etluser             # username
-      POSTGRES_PASSWORD: etlpassword     # password
-    ports:
-      - "5432:5432"                      # host:container — access from your PC too
-    volumes:
-      - postgres_data:/var/lib/postgresql/data   # persist data between restarts
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # auto-run on first start
-    healthcheck:                         # PySpark waits for this before starting
-      test: ["CMD-SHELL", "pg_isready -U etluser -d stockdb"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+![Pipeline](README/images/pipeline_run.png)
 
-  # ── PySpark ETL App ─────────────────────────────────────────────────────
-  pyspark_etl:
-    build: .                             # build image from Dockerfile in current dir
-    container_name: etl_pyspark
-    depends_on:
-      postgres:
-        condition: service_healthy       # only start after Postgres passes healthcheck
-    environment:
-      # Pass config as env vars OR let it read config.json — your choice
-      POSTGRES_HOST: postgres            # container name = hostname on Docker network
-      POSTGRES_PORT: 5432
-      POSTGRES_DB: stockdb
-      POSTGRES_USER: etluser
-      POSTGRES_PASSWORD: etlpassword
-    volumes:
-      - ./data:/app/data                 # persist raw JSON files on your host machine
-      - ./logs:/app/logs                 # persist logs on your host machine
-    networks:
-      - etl_network
+## PostgreSQL Data
 
-  postgres:
-    networks:
-      - etl_network
+![Database](README/images/postgres_data.png)
 
-networks:
-  etl_network:
-    driver: bridge                       # containers talk to each other by service name
+## Docker Containers
 
-volumes:
-  postgres_data:
+![Docker](README/images/docker_containers.png)
+```
 
+---
 
+# 🔮 Future Improvements
 
+* Apache Airflow Scheduling
+* Kafka Streaming Ingestion
+* Delta Lake Storage Layer
+* Great Expectations Data Validation
+* AWS Deployment (S3 + Glue + RDS)
+* GitHub Actions CI/CD
+* Data Quality Monitoring Dashboard
 
-Laptop
-│
-└── Docker Engine
-    │
-    ├── Network: etl_network
-    │
-    ├── Volume: postgres_data
-    │
-    ├── Container: etl_postgres
-    │       ├── PostgreSQL
-    │       ├── Tables
-    │       └── Persistent DB files
-    │
-    └── Container: etl_pyspark
-            ├── Python
-            ├── Java
-            ├── Spark
-            ├── ETL Code
-            └── JDBC Driver
+---
+
+# 👨‍💻 Author
+
+WAJID RAHMAN
+
+Data Engineering | PySpark | PostgreSQL | Docker
+
+LinkedIn: https://www.linkedin.com/in/wajid-rahman/
+
+GitHub: https://github.com/wajid-rah/process_etl/edit/main/Real-Time_Stock_ETL_SystemDocker
+
+---
+
+⭐ If you found this project useful, consider giving it a star.
 			
