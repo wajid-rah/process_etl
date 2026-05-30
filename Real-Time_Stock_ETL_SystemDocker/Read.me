@@ -1,23 +1,40 @@
 # 📈 Real-Time Stock Market ETL Pipeline
 
-> Incremental Data Engineering Pipeline using **Alpha Vantage API → PySpark → PostgreSQL → Docker**
+> End-to-End Incremental Data Engineering Pipeline using Alpha Vantage API, Apache Spark (PySpark), PostgreSQL, and Docker
 
-<br>
+---
 
-## 🚀 Overview
+## 🗂️ Table of Contents
 
-This project demonstrates an end-to-end ETL pipeline that:
+* Overview
+* Key Features
+* Architecture
+* End-to-End Data Flow
+* Step-by-Step Pipeline Execution
+* Project Structure
+* Docker Architecture
+* Docker Volume Mapping
+* Tech Stack
+* How It Works
+* Incremental Load Strategy
+* Getting Started
+* Configuration
+* Running the Pipeline
+* Database Schema
+* Sample Output
+* Logging
+* Future Improvements
+* .gitignore Recommendation
 
-* Extracts stock market OHLCV data from Alpha Vantage API
-* Processes data using PySpark
-* Implements Medallion Architecture (Bronze → Silver → Gold)
-* Loads analytics-ready data into PostgreSQL
-* Uses incremental loading to avoid duplicate records
-* Runs entirely inside Docker containers
+---
 
-<br>
+# Overview
 
-### 📌 Tracked Symbols
+This project is a production-style ETL pipeline that extracts stock market data from the Alpha Vantage API, processes it through a Medallion Architecture (Bronze → Silver → Gold) using Apache Spark, and loads analytics-ready data into PostgreSQL.
+
+The pipeline is fully containerized using Docker and supports incremental loading to avoid reprocessing previously loaded records.
+
+### Tracked Symbols
 
 ```text
 IBM
@@ -26,67 +43,311 @@ MSFT
 TSCO.LON
 ```
 
-<br>
+---
 
-## 🏗️ Architecture
+# Key Features
+
+✅ REST API Data Extraction
+
+✅ Apache Spark Data Processing
+
+✅ Bronze / Silver / Gold Architecture
+
+✅ PostgreSQL Data Warehouse
+
+✅ JDBC Integration
+
+✅ Dockerized Deployment
+
+✅ Incremental Data Loading
+
+✅ Checkpoint-Based Recovery
+
+✅ Centralized Logging
+
+✅ Production-Style Project Structure
+
+---
+
+# Architecture
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                     ETL Pipeline Flow                       │
+│                                                             │
+│  Alpha Vantage API                                          │
+│       │                                                     │
+│       ▼                                                     │
+│  ┌─────────────┐                                            │
+│  │   EXTRACT   │                                            │
+│  └──────┬──────┘                                            │
+│         │                                                   │
+│         ▼                                                   │
+│  ┌─────────────┐                                            │
+│  │   BRONZE    │                                            │
+│  └──────┬──────┘                                            │
+│         │                                                   │
+│         ▼                                                   │
+│  ┌─────────────┐                                            │
+│  │   SILVER    │                                            │
+│  └──────┬──────┘                                            │
+│         │                                                   │
+│         ▼                                                   │
+│  ┌─────────────┐                                            │
+│  │    GOLD     │                                            │
+│  └──────┬──────┘                                            │
+│         │                                                   │
+│         ▼                                                   │
+│  ┌─────────────┐                                            │
+│  │    LOAD     │                                            │
+│  └─────────────┘                                            │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+# End-to-End Data Flow
 
 ```text
 Alpha Vantage API
         │
         ▼
-┌─────────────────┐
-│    EXTRACT      │
-└────────┬────────┘
-         ▼
-┌─────────────────┐
-│    BRONZE       │
-│   Raw JSON      │
-└────────┬────────┘
-         ▼
-┌─────────────────┐
-│    SILVER       │
-│ Data Validation │
-└────────┬────────┘
-         ▼
-┌─────────────────┐
-│     GOLD        │
-│ Business Logic  │
-└────────┬────────┘
-         ▼
-┌─────────────────┐
-│   PostgreSQL    │
-└─────────────────┘
+EXTRACT
+        │
+        ▼
+Raw JSON
+(data/raw/)
+        │
+        ▼
+BRONZE
+(flatten JSON)
+        │
+        ▼
+SILVER
+(validation)
+        │
+        ▼
+GOLD
+(feature engineering)
+        │
+        ▼
+Left Anti Join
+        │
+        ▼
+PostgreSQL
+(stock_daily)
+        │
+        ▼
+Checkpoint Update
+        │
+        ▼
+Next Incremental Run
 ```
 
-<br>
+---
 
-## 🐳 Docker Architecture
+# Step-by-Step Pipeline Execution
+
+## Step 1 — Start Containers
+
+```bash
+docker compose up -d --build
+```
+
+Creates:
+
+* PostgreSQL Container
+* PySpark Container
+* Docker Network
+* Persistent Database Volume
+
+---
+
+## Step 2 — PostgreSQL Initialization
 
 ```text
-Laptop
+init.sql
+      │
+      ▼
+CREATE TABLE stock_daily
+```
+
+Automatically executed during the first database startup.
+
+---
+
+## Step 3 — Execute ETL Pipeline
+
+```bash
+docker compose exec pyspark_etl python main.py
+```
+
+Execution order:
+
+```text
+main.py
 │
-└── Docker Engine
-    │
-    ├── Network: etl_network
-    │
-    ├── Volume: postgres_data
-    │
-    ├── Container: etl_postgres
-    │       └── PostgreSQL Database
-    │
-    └── Container: etl_pyspark
-            ├── Python
-            ├── Java
-            ├── PySpark
-            └── ETL Pipeline
+├── extract_api.py
+├── transformation_data.py
+└── load_postgres.py
 ```
 
-<br>
+---
 
-## 📂 Project Structure
+## Step 4 — Load Configuration
+
+All settings are loaded from:
 
 ```text
-process_etl/
+config/config.json
+```
+
+Contains:
+
+* API settings
+* Database credentials
+* Spark settings
+* File paths
+
+---
+
+## Step 5 — Extract Data
+
+Requests are sent to Alpha Vantage:
+
+```text
+IBM
+AAPL
+MSFT
+TSCO.LON
+```
+
+Data is saved to:
+
+```text
+data/raw/stock_market.json
+```
+
+---
+
+## Step 6 — Bronze Layer
+
+Converts nested JSON into structured Spark DataFrames.
+
+```text
+Nested JSON
+      │
+      ▼
+Flatten JSON
+      │
+      ▼
+Spark DataFrame
+```
+
+---
+
+## Step 7 — Silver Layer
+
+Performs data quality checks:
+
+* Date conversion
+* Null validation
+* Duplicate validation
+
+```text
+(symbol, date)
+```
+
+must remain unique.
+
+---
+
+## Step 8 — Gold Layer
+
+Creates analytics-ready metrics.
+
+### Derived Columns
+
+| Column           | Formula                   |
+| ---------------- | ------------------------- |
+| daily_range      | high - low                |
+| daily_return_pct | ((close-open)/open) × 100 |
+| candle           | Bullish / Bearish         |
+
+---
+
+## Step 9 — Incremental Deduplication
+
+```text
+Incoming Data
+       │
+       ▼
+Left Anti Join
+       │
+       ▼
+New Rows Only
+```
+
+Already-loaded records are removed before insertion.
+
+---
+
+## Step 10 — Load Into PostgreSQL
+
+```text
+Spark DataFrame
+        │
+        ▼
+JDBC
+        │
+        ▼
+PostgreSQL
+```
+
+Append-only loading strategy.
+
+---
+
+## Step 11 — Update Checkpoint
+
+```json
+{
+  "last_loaded_date": "2026-05-18"
+}
+```
+
+Saved after successful loads.
+
+---
+
+## Step 12 — Logging
+
+Log file:
+
+```text
+logs/etl_pipeline.log
+```
+
+Records:
+
+```text
+Extraction
+Transformation
+Loading
+Errors
+Checkpoint Updates
+```
+
+---
+
+# Project Structure
+
+```text
+api_etl_project/
+│
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
 │
 ├── config/
 │   └── config.json
@@ -95,7 +356,7 @@ process_etl/
 │   └── extract_api.py
 │
 ├── transformer/
-│   └── transform_data.py
+│   └── transformation_data.py
 │
 ├── loader/
 │   └── load_postgres.py
@@ -112,92 +373,165 @@ process_etl/
 │
 ├── logs/
 │
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── main.py
-└── README.md
+└── main.py
 ```
 
-<br>
+---
 
-## 🛠️ Tech Stack
-
-| Category          | Technology              |
-| ----------------- | ----------------------- |
-| Language          | Python 3.10             |
-| Processing Engine | Apache PySpark 3.5.1    |
-| Database          | PostgreSQL              |
-| API Source        | Alpha Vantage           |
-| Containerization  | Docker & Docker Compose |
-| Logging           | Python Logging          |
-| Architecture      | Medallion Architecture  |
-
-<br>
-
-## 🔄 Incremental Load Strategy
+# Docker Architecture
 
 ```text
-checkpoint.json
-       │
-       ▼
-Fetch recent data
-       │
-       ▼
-Extract from API
-       │
-       ▼
-Left Anti Join
-(Remove existing rows)
-       │
-       ▼
-Load PostgreSQL
-       │
-       ▼
-Update checkpoint
+Laptop
+│
+└── Docker Engine
+    │
+    ├── Network: etl_network
+    │
+    ├── Volume: postgres_data
+    │
+    ├── Container: etl_postgres
+    │       ├── PostgreSQL
+    │       ├── Tables
+    │       └── Persistent DB Files
+    │
+    └── Container: etl_pyspark
+            ├── Python 3.10
+            ├── Java
+            ├── Apache Spark
+            ├── ETL Code
+            └── PostgreSQL JDBC Driver
 ```
 
-### Duplicate Prevention Layers
+---
 
-| Layer          | Strategy              |
-| -------------- | --------------------- |
-| Extraction     | Date Window Filtering |
-| Transformation | Spark Left Anti Join  |
-| Database       | Composite Primary Key |
+# Docker Volume Mapping
 
-<br>
+```text
+Laptop                         Container (/app)
+├── main.py          ←sync→   ├── main.py
+├── config/          ←sync→   ├── config/
+├── extractor/       ←sync→   ├── extractor/
+├── transformer/     ←sync→   ├── transformer/
+├── loader/          ←sync→   ├── loader/
+├── utils/           ←sync→   ├── utils/
+├── data/            ←sync→   ├── data/
+└── logs/            ←sync→   ├── logs/
+                              └── jars/
+```
 
-## ⚙️ Getting Started
+---
 
-### Clone Repository
+# Tech Stack
+
+| Category         | Technology             |
+| ---------------- | ---------------------- |
+| Language         | Python 3.10            |
+| Processing       | Apache Spark 3.5.1     |
+| Database         | PostgreSQL             |
+| Containerization | Docker                 |
+| API              | Alpha Vantage          |
+| JDBC             | PostgreSQL JDBC Driver |
+| Logging          | Python Logging         |
+| Architecture     | Medallion Architecture |
+
+---
+
+# Incremental Load Strategy
+
+Checkpoint Example:
+
+```json
+{
+  "last_loaded_date": "2026-05-18"
+}
+```
+
+Process:
+
+```text
+Checkpoint
+      │
+      ▼
+Fetch Window
+      │
+      ▼
+Extract Data
+      │
+      ▼
+Left Anti Join
+      │
+      ▼
+Load New Records
+      │
+      ▼
+Save Checkpoint
+```
+
+### Deduplication Layers
+
+| Layer      | Method         |
+| ---------- | -------------- |
+| Extraction | Date Filtering |
+| Spark      | Left Anti Join |
+| PostgreSQL | Primary Key    |
+
+---
+
+# Getting Started
+
+## Clone Repository
 
 ```bash
-git clone https://github.com/wajid-rah/process_etl.git
+git clone https://github.com/your-username/api_etl_project.git
 
-cd process_etl
+cd api_etl_project
 ```
 
-### Build Docker Containers
+## Build Containers
 
 ```bash
 docker compose up -d --build
 ```
 
-### Verify Containers
-
-```bash
-docker compose ps
-```
-
-### Run ETL Pipeline
+## Run Pipeline
 
 ```bash
 docker compose exec pyspark_etl python main.py
 ```
 
-<br>
+---
 
-## 🗄️ Database Schema
+# Configuration
+
+```json
+{
+  "api": {
+    "symbols": ["IBM", "AAPL", "MSFT", "TSCO.LON"]
+  }
+}
+```
+
+All settings are stored in:
+
+```text
+config/config.json
+```
+
+---
+
+# Running the Pipeline
+
+```bash
+docker compose up -d
+
+docker compose exec pyspark_etl python main.py
+
+docker compose logs -f pyspark_etl
+```
+
+---
+
+# Database Schema
 
 ```sql
 CREATE TABLE stock_daily (
@@ -215,37 +549,44 @@ CREATE TABLE stock_daily (
 );
 ```
 
-<br>
+---
 
-## 📊 Sample Output
+# Sample Output
 
 ```text
-symbol | date       | close  | daily_return_pct | candle
--------+------------+--------+------------------+---------
-IBM    | 2026-05-18 | 222.75 | 1.92             | Bullish
-AAPL   | 2026-05-18 | 297.84 | -0.80            | Bearish
-MSFT   | 2026-05-18 | 436.90 | 1.11             | Bullish
+symbol | date       | open   | high   | low    | close  | volume
+IBM    | 2026-05-18 | 218.55 | 223.33 | 217.75 | 222.75 | 5946367
+AAPL   | 2026-05-18 | 300.24 | 300.66 | 294.91 | 297.84 | 34482959
+MSFT   | 2026-05-18 | 432.10 | 438.50 | 430.20 | 436.90 | 18921000
 ```
-
-<br>
-
-## 🔮 Future Enhancements
-
-* Apache Airflow Scheduling
-* Kafka Streaming
-* AWS Deployment
-* CI/CD with GitHub Actions
-* Power BI Dashboard
-* Data Quality Testing
-
-<br>
-
-## 📝 License
-
-This project is intended for educational and portfolio purposes.
-
-<br>
 
 ---
 
-Built with ❤️ using Python, PySpark, PostgreSQL and Docker.
+# Logging
+
+View logs:
+
+```bash
+docker compose logs -f pyspark_etl
+```
+
+or
+
+```text
+logs/etl_pipeline.log
+```
+
+---
+
+# Future Improvements
+
+* Apache Airflow orchestration
+* Delta Lake support
+* AWS S3 data lake storage
+* Kafka real-time streaming
+* Grafana dashboards
+* CI/CD with GitHub Actions
+* Unit and Integration Testing
+
+---
+
