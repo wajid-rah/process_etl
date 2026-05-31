@@ -38,36 +38,36 @@ An end-to-end **incremental ETL pipeline** that:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     ETL Pipeline Flow                        │
-│                                                              │
-│  Alpha Vantage API                                           │
-│       │                                                      │
-│       ▼                                                      │
+│                     ETL Pipeline Flow                       │
+│                                                             │
+│  Alpha Vantage API                                          │
+│       │                                                     │
+│       ▼                                                     │
 │  ┌─────────────┐                                            │
 │  │   EXTRACT   │  Loop symbols → filter to date window      │
 │  │             │  Save raw JSON → data/raw/                 │
 │  └──────┬──────┘                                            │
-│         │                                                    │
-│         ▼                                                    │
+│         │                                                   │
+│         ▼                                                   │
 │  ┌─────────────┐                                            │
 │  │   BRONZE    │  Flatten nested JSON → Spark DataFrame     │
 │  │             │  Explicit schema (symbol, date, OHLCV)     │
 │  └──────┬──────┘                                            │
-│         │                                                    │
-│         ▼                                                    │
+│         │                                                   │
+│         ▼                                                   │
 │  ┌─────────────┐                                            │
 │  │   SILVER    │  Parse DateType · NULL checks              │
 │  │             │  Duplicate checks on (symbol, date)        │
 │  └──────┬──────┘                                            │
-│         │                                                    │
-│         ▼                                                    │
+│         │                                                   │
+│         ▼                                                   │
 │  ┌─────────────┐                                            │
 │  │    GOLD     │  + daily_range  (high - low)               │
 │  │             │  + daily_return_pct                        │
 │  │             │  + candle (Bullish / Bearish)              │
 │  └──────┬──────┘                                            │
-│         │                                                    │
-│         ▼                                                    │
+│         │                                                   │
+│         ▼                                                   │
 │  ┌─────────────┐                                            │
 │  │    LOAD     │  JDBC append → PostgreSQL stock_daily      │
 │  │             │  Save checkpoint on success                │
