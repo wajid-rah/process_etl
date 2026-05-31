@@ -468,7 +468,7 @@ Data Engineering | PySpark | PostgreSQL | Docker
 
 LinkedIn: https://www.linkedin.com/in/wajid-rahman/
 
-GitHub: https://github.com/wajid-rah/process_etl/edit/main/Real-Time_Stock_ETL_SystemDocker
+GitHub: https://github.com/wajid-rah/process_etl/tree/main/Real-Time_Stock_ETL_SystemDocker
 
 ---
 
