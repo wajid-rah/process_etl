@@ -448,17 +448,7 @@ Then display them:
 
 ---
 
-# 🔮 Future Improvements
 
-* Apache Airflow Scheduling
-* Kafka Streaming Ingestion
-* Delta Lake Storage Layer
-* Great Expectations Data Validation
-* AWS Deployment (S3 + Glue + RDS)
-* GitHub Actions CI/CD
-* Data Quality Monitoring Dashboard
-
----
 
 # 👨‍💻 Author
 
