@@ -17,6 +17,7 @@ pipeline {
                 //tells every sh command to run from inside that folder, so docker-compose finds the right files.
 
                     echo 'Stopping any existing containers...'
+                    sh 'docker rm -f pg-compose python-compose || true'  // pg-compose from docker-compose.yml
                     sh 'docker-compose down -v || true' //If command fails, pretend it succeeded.
                 }
             }
