@@ -1,0 +1,44 @@
+services:
+
+  postgres:
+    image: postgres:16.14
+    container_name: pg-compose
+    environment:
+      POSTGRES_USER: etluser
+      POSTGRES_PASSWORD: etlpassword
+      POSTGRES_DB: wajiddb
+    volumes:
+        - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
+#      Your machine                    PostgreSQL container
+#      ./setup.sql          →          /docker-entrypoint-initdb.d/setup.sql
+                                          #      ↓
+                                          #      runs automatically on startup
+                                          #      CREATE TABLE employees ✅
+                                          #      INSERT 10 rows ✅
+
+    networks:
+      - pg-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U etluser -d wajiddb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  python-app:
+    build: .
+    container_name: python-compose
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - pg-network
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: wajiddb
+      DB_USER: etluser
+      DB_PASS: etlpassword
+
+networks:
+  pg-network:
+    driver: bridge
