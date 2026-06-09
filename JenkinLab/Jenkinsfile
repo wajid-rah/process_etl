@@ -1,0 +1,62 @@
+// Set Scripts paths to JenkinLab/Jenkinsfile in jenkin job configuration
+pipeline {
+    agent any // Run this pipeline on any available Jenkins agent/node.
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo 'Pulling latest code from GitHub...'
+                checkout scm # git pull https://github.com/wajid-rah/process_etl.git
+            }
+        }
+
+        stage('Tear Down Old Containers') {
+            steps {
+                dir('JenkinLab') {        // ← work inside this subfolder
+                //tells every sh command to run from inside that folder, so docker-compose finds the right files.
+
+                    echo 'Stopping any existing containers...'
+                    sh 'docker-compose down -v || true' //If command fails, pretend it succeeded.
+                }
+            }
+        }
+
+        stage('Build & Run') {
+            steps {
+                dir('JenkinLab') {        // ← work inside this subfolder
+                //tells every sh command to run from inside that folder, so docker-compose finds the right files.
+
+                    echo 'Building image and starting services...'
+                    sh 'docker-compose up --build --abort-on-container-exit'
+                    //Without it Postgres keeps running forever
+                    //stops all containers when python-app finishes, so the pipeline doesn't hang.
+                }
+            }
+        }
+
+        stage('Verify Output') {
+            steps {
+                echo 'Pipeline complete - check logs for employee table'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ SUCCESS: PostgreSQL started, data loaded, Python read it!'
+        }
+        failure {
+            echo '❌ FAILURE: Something went wrong. Check logs above.'
+            dir('JenkinLab') {
+                sh 'docker-compose down -v || true'
+            }
+        }
+        always {
+            echo 'Cleaning up containers...'
+            dir('JenkinLab') {
+                sh 'docker-compose down -v || true'
+            }
+        }
+    }
+}
