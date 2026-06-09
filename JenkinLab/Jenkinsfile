@@ -7,7 +7,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Pulling latest code from GitHub...'
-                checkout scm # git pull https://github.com/wajid-rah/process_etl.git
+                checkout scm // git pull https://github.com/wajid-rah/process_etl.git
             }
         }
 
