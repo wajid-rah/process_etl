@@ -15,7 +15,7 @@ conn = psycopg2.connect(
 # Create a cursor to execute SQL statement
 cursor = conn.cursor()
 
-# read all employees
+# read all employees - updated
 cursor.execute("SELECT * FROM employees ORDER BY id;")
 
 # This retrieves all query results into a Python list.
