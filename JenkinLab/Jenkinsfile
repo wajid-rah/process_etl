@@ -50,12 +50,36 @@ pipeline {
     post {
         success {
             echo '✅ SUCCESS: PostgreSQL started, data loaded, Python read it!'
+            emailext(
+                to: 'wjdrahman@gmail.com',
+                subject: "✅ Jenkins SUCCESS - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    <h2>Build Succeeded!</h2>
+                    <p><b>Job:</b> ${env.JOB_NAME}</p>
+                    <p><b>Build:</b> #${env.BUILD_NUMBER}</p>
+                    <p><b>Duration:</b> ${currentBuild.durationString}</p>
+                    <p><a href="${env.BUILD_URL}">View Build Logs</a></p>
+                """,
+                mimeType: 'text/html'
+            )
         }
         failure {
             echo '❌ FAILURE: Something went wrong. Check logs above.'
             dir('JenkinLab') {
                 sh 'docker-compose down -v || true'
             }
+            emailext(
+                to: 'wjdrahman@gmail.com',
+                subject: "❌ Jenkins FAILURE - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    <h2>Build Failed!</h2>
+                    <p><b>Job:</b> ${env.JOB_NAME}</p>
+                    <p><b>Build:</b> #${env.BUILD_NUMBER}</p>
+                    <p><b>Duration:</b> ${currentBuild.durationString}</p>
+                    <p><a href="${env.BUILD_URL}console">View Console Output</a></p>
+                """,
+                mimeType: 'text/html'
+            )
         }
         always {
             echo 'Cleaning up containers...'
