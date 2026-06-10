@@ -1,21 +1,13 @@
 services:
-
   postgres:
-    image: postgres:16.14
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres   # Build a custom image
     container_name: pg-compose
     environment:
       POSTGRES_USER: etluser
       POSTGRES_PASSWORD: etlpassword
       POSTGRES_DB: wajiddb
-    volumes:
-        - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
-#      Your machine                    PostgreSQL container
-#      ./setup.sql          →          /docker-entrypoint-initdb.d/setup.sql
-                                          #      ↓
-                                          #      runs automatically on startup
-                                          #      CREATE TABLE employees ✅
-                                          #      INSERT 10 rows ✅
-
     networks:
       - pg-network
     healthcheck:
