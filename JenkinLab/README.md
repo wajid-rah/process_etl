@@ -10,7 +10,7 @@ A step-by-step guide covering Docker, Docker Compose, and Jenkins CI/CD pipeline
 
 **Tech Stack:** Python · PostgreSQL · Docker · Docker Compose · Jenkins · GitHub · psycopg2 · Linux (Ubuntu)
 
-**Bullet Points:**
+**Points:**
 - Designed and implemented an end-to-end **CI/CD pipeline** using **Jenkins** to automate ETL workflow deployment triggered by GitHub commits
 - Containerized a **Python-based ETL application** using **Docker** and **Docker Compose**, orchestrating a multi-container setup with **PostgreSQL** and a Python data reader
 - Built a custom **PostgreSQL Docker image** using `Dockerfile` with pre-loaded SQL scripts (`setup.sql`) to automate database schema creation and seed data insertion on container startup
