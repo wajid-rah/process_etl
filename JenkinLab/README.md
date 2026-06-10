@@ -4,7 +4,7 @@ A step-by-step guide covering Docker, Docker Compose, and Jenkins CI/CD pipeline
 
 ---
 
-## Project Description *(Resume / Naukri.com)*
+## Project Description 
 
 **Project Title:** Automated ETL Pipeline with Jenkins CI/CD, Docker, and PostgreSQL
 
