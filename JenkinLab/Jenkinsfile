@@ -29,7 +29,8 @@ pipeline {
                 //tells every sh command to run from inside that folder, so docker-compose finds the right files.
 
                     echo 'Building image and starting services...'
-                    sh 'docker-compose up --build --abort-on-container-exit'
+                    sh 'docker-compose build --no-cache'
+                    sh 'docker-compose up --abort-on-container-exit'
                     //Without it Postgres keeps running forever
                     //stops all containers when python-app finishes, so the pipeline doesn't hang.
                 }
