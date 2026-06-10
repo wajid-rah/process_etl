@@ -2,6 +2,9 @@
 pipeline {
     agent any // Run this pipeline on any available Jenkins agent/node.
 
+    triggers {
+        pollSCM('H/2 * * * *')   // ← check GitHub every 2 minutes
+    }
     stages {
 
         stage('Checkout') {
