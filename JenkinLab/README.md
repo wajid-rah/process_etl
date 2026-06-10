@@ -4,6 +4,24 @@ A step-by-step guide covering Docker, Docker Compose, and Jenkins CI/CD pipeline
 
 ---
 
+## Project Description *(Resume / Naukri.com)*
+
+**Project Title:** Automated ETL Pipeline with Jenkins CI/CD, Docker, and PostgreSQL
+
+**Tech Stack:** Python · PostgreSQL · Docker · Docker Compose · Jenkins · GitHub · psycopg2 · Linux (Ubuntu)
+
+**Bullet Points:**
+- Designed and implemented an end-to-end **CI/CD pipeline** using **Jenkins** to automate ETL workflow deployment triggered by GitHub commits
+- Containerized a **Python-based ETL application** using **Docker** and **Docker Compose**, orchestrating a multi-container setup with **PostgreSQL** and a Python data reader
+- Built a custom **PostgreSQL Docker image** using `Dockerfile` with pre-loaded SQL scripts (`setup.sql`) to automate database schema creation and seed data insertion on container startup
+- Configured **Jenkins Poll SCM** to automatically detect GitHub repository changes every 2 minutes and trigger pipeline builds without manual intervention
+- Integrated **Gmail SMTP email notifications** in the Jenkins pipeline to alert on build `SUCCESS` or `FAILURE` with build details and console log links
+- Implemented pipeline stages — Checkout, Tear Down, Build & Run, Verify, and Post Actions — with proper cleanup using `docker-compose down` to prevent container conflicts
+- Troubleshot and resolved real-world DevOps issues including **OOM (Out of Memory) kills**, Docker socket permission errors, nested Git repository conflicts, and SMTP authentication failures
+- Pushed project code to **GitHub** as a subfolder inside a monorepo (`process_etl/JenkinLab/`), configuring Jenkins `Script Path` to point to the correct `Jenkinsfile` location
+
+---
+
 ## Project Structure
 
 ```
